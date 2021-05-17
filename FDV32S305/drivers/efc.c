@@ -44,7 +44,7 @@ BOOL EFC_Init(void) {
         EFC_WPT_UNLOCK();
         EFC->TRCV = (0x4 << 16) | (0x1f << 9) | 0x79;
         EFC_WPT_UNLOCK();
-        EFC->TERASE = (0x09 << 7) | 0x46;
+        EFC->TERS = (0x09 << 7) | 0x46;
     } else if (SystemCoreClock == 2000000) {
         EFC_WPT_UNLOCK();
         EFC->CR &= ~(EFC_CR_PRG2MDIV | EFC_CR_ERS2KDIV);
@@ -60,7 +60,7 @@ BOOL EFC_Init(void) {
         EFC_WPT_UNLOCK();
         EFC->TRCV = (0x6 << 16) | (0x3d << 9) | 0xf1;
         EFC_WPT_UNLOCK();
-        EFC->TERASE = (0x09 << 7) | 0x46;
+        EFC->TERS = (0x09 << 7) | 0x46;
     } else {
         EFC_WPT_UNLOCK();
         EFC->CR &= ~(EFC_CR_PRG2MDIV | EFC_CR_ERS2KDIV);
@@ -75,7 +75,7 @@ BOOL EFC_Init(void) {
         EFC_WPT_UNLOCK();
         EFC->TRCV = 0xcf1e0;
         EFC_WPT_UNLOCK();
-        EFC->TERASE = 0x4c6;
+        EFC->TERS = 0x4c6;
     }
     return TRUE;
 }

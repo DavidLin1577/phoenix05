@@ -8,8 +8,8 @@
  * @copyright Fanhai Data Tech. (c) 2021
  *
  */
-#ifndef _PHNX05_H
-#define _PHNX05_H
+#ifndef __PHNX05_H__
+#define __PHNX05_H__
 
 #ifdef cplusplus
 extern "C" {
@@ -22,32 +22,31 @@ extern "C" {
   \li for automatic generation of peripheral register debug information.
   */
 #ifdef __cplusplus
-#define __I volatile /*!< Defines 'read only' permissions                 */
+#define __I volatile /*!< Defines 'read only' permissions       */
 #else
-#define __I                                                                    \
-    volatile const /*!< Defines 'read only' permissions                 */
+#define __I volatile const /*!< Defines 'read only' permissions */
 #endif
-#define __O volatile  /*!< Defines 'write only' permissions                */
-#define __IO volatile /*!< Defines 'read / write' permissions              */
+#define __O volatile  /*!< Defines 'write only' permissions     */
+#define __IO volatile /*!< Defines 'read / write' permissions   */
 
 /* define interrupt number */
-typedef enum IRQn {
-    /* ---------------------  Phonix02 Specific Interrupt Numbers ------------*/
-    RSV_IRQn = 0,
-    ADC_IRQn = 1,
-	LPTIMER_IRQn = 2,
-	TIMER0_IRQn = 3,
-    TIMER1_IRQn = 4,
-    TIMER2_IRQn = 5,
-    TIMER3_IRQn = 6,
-	TIMER4_IRQn = 7,
-	UART1_IRQn = 8,
-	ANAC_IRQn = 9,
-	EFC_IRQn = 10,
-	IOM_IRQn = 11,
+typedef enum IRQn
+{
+/* ----------     Phonix05 Specific Interrupt Numbers  ---------*/
+    RSV_IRQn      = 0,
+    ADC_IRQn      = 1,
+	LPTIMER_IRQn  = 2,
+	TIMER0_IRQn   = 3,
+    TIMER1_IRQn   = 4,
+    TIMER2_IRQn   = 5,
+    TIMER3_IRQn   = 6,
+	TIMER4_IRQn   = 7,
+	UART1_IRQn    = 8,
+	ANAC_IRQn     = 9,
+	EFC_IRQn      = 10,
+	IOM_IRQn      = 11,
 } IRQn_Type;
 
-//
 #include "../../FDV32S305/include/risc_v_csr.h"
 #include "../../FDV32S305/include/system_phnx05.h"
 
@@ -55,35 +54,26 @@ typedef enum IRQn {
  * @brief Embeded Flash Control (EFC)
  */
 
-typedef struct {            /*!< EFC Structure          */
-    __IO unsigned int CR;   /*!< Control Register */
-    __IO unsigned int TNVS; /*!< ROG/ERASE/CEb/NVR/ADDRESS to Web Setup time */
-    __IO unsigned int
-        TPROG; /*!< PROG/ERASE/CEb/NVR/ADDRESS to Web Setup time          */
+typedef struct {              /*!< EFC Structure          */
+    __IO unsigned int CR;     /*!< Control Register */
+    __IO unsigned int TNVS;   /*!< ROG/ERASE/CEb/NVR/ADDRESS to Web Setup time */
+    __IO unsigned int TPROG;  /*!< PROG/ERASE/CEb/NVR/ADDRESS to Web Setup time          */
     __IO unsigned int TPGS;   /*!< WEb low to PROG2 high Setup time */
     __IO unsigned int TRCV;   /*!< Program Recovery Time */
-    __IO unsigned int TERASE; /*!< Erase time */
-    __O unsigned int WPT;     /*!< Write Protect Register     */
+    __IO unsigned int TERS;   /*!< Erase time */
+    __O  unsigned int WPT;    /*!< Write Protect Register     */
     __IO unsigned int OPR;    /*!< OPR Flow Register    */
-    __I unsigned int PVEV;    /*!< Verify Register    */
     __IO unsigned int STS;    /*!< Verify Register    */
 } EFC_Type;
-
-typedef struct {
-    __I unsigned int Rsv[0x04 / 4];
-    __IO unsigned int CRC_RSL;
-    __I unsigned int RSV[0x80 / 4 - 2];
-    __IO unsigned int CRC_DAT;
-} CRC_Type;
 
 
 /**
  * @brief System Control (SYSC)
  */
 
-typedef struct {                  /*!< SYSC Structure  */
-    __IO unsigned int CLKCTRCFG;  /*!< CLKCTRCFG       */
-    __O  unsigned int WRPROCFG;   /*!< WRPROCFG        */
+typedef struct {
+    __IO unsigned int CLKCTRCFG;
+    __O  unsigned int WRPROCFG;
     __IO unsigned int CLKENCFG;
     __O  unsigned int MSFTRSTCFG;
     __IO unsigned int TESTCKSEL;
@@ -159,12 +149,12 @@ typedef struct {
 typedef struct {
     __IO unsigned int CR;
     __IO unsigned int WKCFG;
-    __O unsigned int SOFTRST;
+    __O  unsigned int SOFTRST;
     __IO unsigned int WKSTS;
     __IO unsigned int RSTSTS;
     __IO unsigned int INTEN;
-    __O unsigned int WPT;
-    __I unsigned int RSV[1];
+    __O  unsigned int WPT;
+    __I  unsigned int RSV[1];
     __IO unsigned int BAKR;
 
 } PMU_Type;
@@ -184,27 +174,45 @@ typedef struct {
 } WDT_Type;
 
 /* enum definitions */
-typedef enum { DISABLE = 0, ENABLE = !DISABLE } EventStatus, ControlStatus;
-typedef enum { FALSE = 0, TRUE = !FALSE } BOOL;
-typedef enum { RESET = 0, SET = 1, MAX = 0X7FFFFFFF } FlagStatus;
-typedef enum { ERROR = 0, SUCCESS = !ERROR } ErrStatus;
+typedef enum
+{
+	DISABLE = 0,
+	ENABLE = !DISABLE
+} EventStatus, ControlStatus;
+
+typedef enum
+{
+	FALSE = 0,
+	TRUE = !FALSE
+} BOOL;
+
+typedef enum
+{
+	RESET = 0,
+	SET = 1,
+	MAX = 0X7FFFFFFF
+} FlagStatus;
+
+typedef enum
+{
+	ERROR = 0,
+	SUCCESS = !ERROR
+} ErrStatus;
 
 /* bit operations */
-#define REG32(addr) (*((volatile unsigned int *)(addr)))
-#define REG16(addr) (*((volatile unsigned short *)(addr)))
-#define REG8(addr) (*((volatile unsigned char *)(addr)))
-#define BIT(x) ((unsigned int)0x01U << (x))
-#define BITS(start, end)                                                       \
+#define REG32(addr)     (*((volatile unsigned int *)(addr)))
+#define REG16(addr)     (*((volatile unsigned short *)(addr)))
+#define REG8(addr)      (*((volatile unsigned char *)(addr)))
+#define BIT(x)          ((unsigned int)0x01U << (x))
+#define BITS(start, end)              \
     ((0xFFFFFFFFUL << (start)) & (0xFFFFFFFFUL >> (31U - (end))))
-#define GET_BITS(regval, start, end)                                           \
+#define GET_BITS(regval, start, end)  \
     (((regval)&BITS((start), (end))) >> (start))
 
 /* main flash and SRAM memory map */
 
-#define FLASH_BASE                                                             \
-    ((unsigned int)0x00002000UL) /*!< main FLASH base address          */
-#define SRAM_BASE                                                              \
-    ((unsigned int)0x0000B000UL) /*!< SRAM0 base address               */
+#define FLASH_BASE     ((unsigned int)0x00002000UL)  /*!< main FLASH base address */
+#define SRAM_BASE      ((unsigned int)0x0000B000UL)  /*!< SRAM0 base address      */
 
 /* Peripheral memory map */
 #define EFC_BASE        0x0000C000UL
@@ -235,17 +243,17 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR } ErrStatus;
 #define WDT             ((WDT_Type *)WDT_BASE)
 
 /** @} */ /* End of group Device_Peripheral_Registers */
-/** @} */ /* End of group Phonix02 */
+/** @} */ /* End of group Phonix05 */
 /** @} */ /* End of group FHSJDZ */
 
 // data type define
-typedef unsigned int u32;
-typedef unsigned short u16;
-typedef unsigned char u8;
+typedef unsigned int    u32;
+typedef unsigned short  u16;
+typedef unsigned char   u8;
 
-typedef signed int s32;
-typedef signed short s16;
-typedef signed char s8;
+typedef signed int      s32;
+typedef signed short    s16;
+typedef signed char     s8;
 
 #ifdef _FW_DEBUG
 extern int __wrap_printf(const char *fmt, ...);
@@ -266,4 +274,4 @@ extern int __wrap_printf(const char *fmt, ...);
 }
 #endif
 
-#endif /* _PHNX05_H */
+#endif /* __PHNX05_H__ */
