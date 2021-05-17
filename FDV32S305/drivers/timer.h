@@ -8,9 +8,19 @@
  * @copyright Fanhai Data Tech. (c) 2021
  *
  */
-#ifndef __TIM_H
-#define __TIM_H
+#ifndef __TIMER_H__
+#define __TIMER_H__
 #include "../include/phnx05.h"
+
+typedef enum timer
+{
+    TIMER0 = 0,
+	TIMER1 = 1,
+	TIMER2 = 2,
+	TIMER3 = 3,
+	TIMER4 = 4,
+	TIMER_MAX,
+} timer_t;
 
 // reg bit definitions
 #define TIM_PWCON_PWMCPOL BITS(17, 18)
@@ -58,11 +68,6 @@
 #define TIM_CON_TM_TIM3 BIT(6)
 #define TIM_CON_TM_TIM4 BIT(7)
 
-#define TIM_CON_TE BITS(0, 3)
-#define TIM_CON_TE_TIM1 BIT(0)
-#define TIM_CON_TE_TIM2 BIT(1)
-#define TIM_CON_TE_TIM3 BIT(2)
-#define TIM_CON_TE_TIM4 BIT(3)
 
 #define TIM_INTFLAG BITS(0, 3)
 #define TIM_INTFLAG_TIM1 BIT(0)
@@ -83,35 +88,21 @@
 #define TIM_CNT_POLARITY_HIGH 0
 #define TIM_CNT_POLARITY_LOW 1
 
-#define TIM1_CNT_PORT_P8_P9 0
-#define TIM2_CNT_PORT_P10_P11 1
-#define TIM3_CNT_PORT_P0_P1 2
-#define TIM4_CNT_PORT_P6_P7 3
-
-#define TIM1_PWM_PORT_P8_P9 0
-#define TIM2_PWM_PORT_P10_P11 1
-#define TIM2_PWM_PORT_P4_P5 2
-#define TIM3_PWM_PORT_P14_P15 3
-#define TIM3_PWM_PORT_P16_P13 4
-#define TIM4_PWM_PORT_P6_P7 5
 
 #define TIM_PWM_POL_PWM0_PWM1 0
 #define TIM_PWM_POL_NPWM0_PWM1 1
 #define TIM_PWM_POL_PWM0_NPWM1 2
 #define TIM_PWM_POL_NPWM0_NPWM1 3
 
-// extern function declare
+#define TIMER0_CTRL_EN                          BIT(7)
+#define TIMER1_CTRL_EN                          BIT(0)
+#define TIMER2_CTRL_EN                          BIT(0)
+#define TIMER3_CTRL_EN                          BIT(0)
+#define TIMER4_CTRL_EN                          BIT(0)
 
-void TIM_TimerInit(TIM_Type *pTim, int mode, int del);
-void TIM_CounterInit(TIM_Type *pTim, int cntPolarity, int portSel);
-void TIM_PWMInit(TIM_Type *pTim, int pwmPolarity, int freq, int duty,
-                 int portSel, int dtGap);
-void TIM_DeInit(TIM_Type *pTim);
-void TIM_EnableControl(TIM_Type *pTim, int iCtrl);
-void TIM_EnableIRQ(TIM_Type *pTim);
-void TIM_DisableIRQ(TIM_Type *pTim);
-void TIM_PauseCntControl(TIM_Type *pTim, ControlStatus ctl);
-FlagStatus TIM_GetIntFlag(TIM_Type *pTim);
-void TIM_ClrIntFlag(TIM_Type *pTim);
+// timer function declare
+void Timer_DisableIRQ(timer_t timer);
+FlagStatus Timer_GetIntFlag(timer_t timer);
+void Timer_ClrIntFlag(timer_t timer) ;
 
-#endif
+#endif /*__TIMER_H__ */

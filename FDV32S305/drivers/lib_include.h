@@ -9,6 +9,9 @@
  *
  */
 
+#ifndef __LIB_INCLUDE_H__
+#define __LIB_INCLUDE_H__
+
 // firmware include file
 #include "../../FDV32S305/drivers/efc.h"
 #include "../../FDV32S305/drivers/iom.h"
@@ -24,3 +27,5 @@ extern int __wrap_printf(const char *fmt, ...);
 #else
 #define printf(...)
 #endif
+
+#endif/*__LIB_INCLUDE_H__*/

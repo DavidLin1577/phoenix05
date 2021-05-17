@@ -11,18 +11,34 @@
 
 #include "wdt.h"
 #include "sysc.h"
+
+#define WDT_StartCount()                 \
+{                                        \
+    WDT_RST_REG = WDT_START_RST_V0;      \
+    WDT_RST_REG = WDT_START_RST_V1;      \
+}
+#define WDT_ClrCount()                   \
+{                                        \
+    WDT_RST_REG = WDT_START_RST_V0;      \
+    WDT_RST_REG = WDT_START_RST_V1;      \
+}
+#define WDT_ClrIntFlag()                 \
+{                                        \
+    WDT_RST_REG = WDT_START_RST_V0;      \
+    WDT_RST_REG = WDT_START_RST_V1;      \
+}
+
 /**
  * @brief wdt init
  *
- * @param iDel:  delay ms  (lrc:max 256s xtl:max 64s)
- * @param iClkSrc: PMU_CR_LPTCLKSEL_LRC , PMU_CR_LPTCLKSEL_XTL
+ * @param iDel:  delay ms  (lrc:max 256s)
  * @param iOVMode :WDT_OV_INT , WDT_OV_RST
  * note:clk source = lrc  at least 4ms err
  */
-void WDT_Init(int iDel, int iClkSrc, eOVModeType iOVMode) {
+void WDT_Init(int iDel, eOVModeType iOVMode)
+{
     int iTmp = 1;
-    PARAM_CHECK((iClkSrc != PMU_CR_LPTCLKSEL_LRC) &&
-                (iClkSrc != PMU_CR_LPTCLKSEL_XTL));
+
     PARAM_CHECK((iOVMode != WDT_OV_INT) && (iOVMode != WDT_OV_RST));
     SYSC->CLKENCFG |= SYSC_CLKENCFG_LPWDT_PCKEN;
 
@@ -39,7 +55,21 @@ void WDT_Init(int iDel, int iClkSrc, eOVModeType iOVMode) {
     } else {
         WDT_CR_REG &= ~WDT_CR_WINTEN;
     }
-    WDT_StartCount();
+}
+
+void WDT_Start(void)
+{
+	WDT_StartCount();
+}
+
+void WDT_Clear(void)
+{
+	WDT_ClrCount();
+}
+
+void WDT_ClearIntFlag(void)
+{
+	WDT_ClrIntFlag();
 }
 
 /**

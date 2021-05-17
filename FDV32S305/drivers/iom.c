@@ -27,11 +27,11 @@ void GPIO_PinConfigure(int pin, int analogEn, int outputEn, int puEn, int pdEn,
     SYSC->CLKENCFG |= SYSC_CLKENCFG_IOM_PCKEN;
     PARAM_CHECK((pin == 0) || (pin >= (1 << 20)));
     if (analogEn == ENABLE) {
-        IOM->ADS |= pin;
+        IOM->AINCTRL|= pin;
     } else {
         int i;
         int pinTmp = pin;
-        IOM->ADS &= ~pin;
+        IOM->AINCTRL &= ~pin;
         for (i = 0; i < 20; ++i) {
             if (pinTmp & 0x01) {
                 if (i < 16) {

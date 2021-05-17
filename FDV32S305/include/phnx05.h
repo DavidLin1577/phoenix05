@@ -50,9 +50,6 @@ typedef enum IRQn {
 //
 #include "../../FDV32S305/include/risc_v_csr.h"
 #include "../../FDV32S305/include/system_phnx05.h"
-/* ================================================================================*/
-/* ================                       EFC ================ */
-/* ================================================================================*/
 
 /**
  * @brief Embeded Flash Control (EFC)
@@ -79,71 +76,57 @@ typedef struct {
     __IO unsigned int CRC_DAT;
 } CRC_Type;
 
-/* ================================================================================
- */
-/* ================                      SYSC ================ */
-/* ================================================================================
- */
 
 /**
  * @brief System Control (SYSC)
  */
 
-typedef struct {                 /*!< SYSC Structure             */
-    __IO unsigned int CLKCTRCFG; /*!< CLKCTRCFG */
-    __O unsigned int WRPROCFG;   /*!< WRPROCFG   */
+typedef struct {                  /*!< SYSC Structure  */
+    __IO unsigned int CLKCTRCFG;  /*!< CLKCTRCFG       */
+    __O  unsigned int WRPROCFG;   /*!< WRPROCFG        */
     __IO unsigned int CLKENCFG;
-    __O unsigned int MSFTRSTCFG;
-    __IO unsigned int RSV[1];
+    __O  unsigned int MSFTRSTCFG;
     __IO unsigned int TESTCKSEL;
-    __IO unsigned int ANCLKDIV;
-    __IO unsigned int TIMCLKDIV;
-    __IO unsigned int BZTIMCLKDIV;
+    __IO unsigned int ADCCLKDIV;
+    __IO unsigned int RSTSTS;
 } SYSC_Type;
 
-/* ================================================================================
- */
-/* ================                     TIMERS ================ */
-/* ================================================================================
- */
 
 /**
- * @brief Timer Control (TIMERS)
+ * @brief TIMERS
  */
 
-typedef struct {              /*!< TIMERS Structure             */
-    __IO unsigned int CON;    /*!< TIMCON    */
-    __I unsigned int INTFLAG; /*!< TIMINTFLAG */
-    __O unsigned int INTCLR;  /*!< TIMINTCLR  */
+typedef struct {
+    __IO unsigned int T0CR;
+    __IO unsigned int T0;
+    __IO unsigned int TIE;
+    __IO unsigned int TIF;
+    __IO unsigned int TCR1;
+    __IO unsigned int TN1;
+    __IO unsigned int PWMPD1;
+    __IO unsigned int PWMDC1;
+    __IO unsigned int TCR2;
+    __IO unsigned int TN2;
+    __IO unsigned int PWMPD2;
+    __IO unsigned int PWMDC2;
+    __IO unsigned int TCR3;
+    __IO unsigned int TN3;
+    __IO unsigned int PWMPD3;
+    __IO unsigned int PWMDC3;
+    __IO unsigned int TCR4;
+    __IO unsigned int TN4;
+    __IO unsigned int PWMPD4;
+    __IO unsigned int PWMDC4;
+    __IO unsigned int T0RLD;
 } TIMERS_Type;
 
-/* ================================================================================
- */
-/* ================                      TIM0 ================ */
-/* ================================================================================
- */
-
-/**
- * @brief Timer Control (TIM0)
- */
-
-typedef struct {             /*!< TIM0 Structure            */
-    __IO unsigned int CTCG1; /*!< TIMCTCG1 */
-    __IO unsigned int CTCG2; /*!< TIMCTCG2 */
-    __I unsigned int CTVAL;  /*!< TIMCTVAL  */
-    __IO unsigned int PWCON; /*!< TIMPWCON */
+//define for timer1-timer4,no include timer0
+typedef struct {
+    __IO unsigned int TCR;
+    __IO unsigned int TN;
+    __IO unsigned int PWMPD;
+    __IO unsigned int PWMDC;
 } TIM_Type;
-
-/* ================================================================================
- */
-/* ================                       I2C ================ */
-/* ================================================================================
- */
-
-/**
- * @brief I2C Control (I2C)
- */
-
 
 typedef struct {
     __IO unsigned int SCON;
@@ -161,7 +144,7 @@ typedef struct {
     __IO unsigned int PU;
     __IO unsigned int PD;
     __IO unsigned int OTYPE;
-    __IO unsigned int ADS;
+    __IO unsigned int AINCTRL;
     __IO unsigned int DRS;
     __IO unsigned int AF0;
     __IO unsigned int AF1;
@@ -222,42 +205,34 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR } ErrStatus;
     ((unsigned int)0x00002000UL) /*!< main FLASH base address          */
 #define SRAM_BASE                                                              \
     ((unsigned int)0x0000B000UL) /*!< SRAM0 base address               */
-/* ================================================================================
- */
-/* ================              Peripheral memory map ================ */
-/* ================================================================================
- */
 
-#define EFC_BASE 0x0000C000UL
-#define SYSC_BASE 0x0000C400UL
-#define TIMERS_BASE 0x0000D000UL
-#define TIM1_BASE 0x40010000UL
-#define TIM2_BASE 0x40010014UL
-#define TIM3_BASE 0x40010028UL
-#define TIM4_BASE 0x4001003CUL
-#define UART1_BASE 0x0000D400UL
-#define ANAC_BASE 0x0000CC00UL
-#define IOM_BASE 0x0000C800UL
-#define LPTIM_BASE 0x0000F800UL
-#define WDT_BASE 0x0000FC00UL
-/* ================================================================================
- */
-/* ================             Peripheral declaration ================ */
-/* ================================================================================
- */
+/* Peripheral memory map */
+#define EFC_BASE        0x0000C000UL
+#define SYSC_BASE       0x0000C400UL
+#define TIMERS_BASE     0x0000D000UL
+#define TIM1_BASE       0x0000D010UL
+#define TIM2_BASE       0x0000D020UL
+#define TIM3_BASE       0x0000D030UL
+#define TIM4_BASE       0x0000D040UL
+#define UART1_BASE      0x0000D400UL
+#define ANAC_BASE       0x0000CC00UL
+#define IOM_BASE        0x0000C800UL
+#define LPTIM_BASE      0x0000F800UL
+#define WDT_BASE        0x0000FC00UL
 
-#define EFC ((EFC_Type *)EFC_BASE)
-#define SYSC ((SYSC_Type *)SYSC_BASE)
-#define TIMERS ((TIMERS_Type *)TIMERS_BASE)
-#define TIM1 ((TIM_Type *)TIM1_BASE)
-#define TIM2 ((TIM_Type *)TIM2_BASE)
-#define TIM3 ((TIM_Type *)TIM3_BASE)
-#define TIM4 ((TIM_Type *)TIM4_BASE)
-#define UART1 ((UART_Type *)UART1_BASE)
-#define ANAC ((ANAC_Type *)ANAC_BASE)
-#define IOM ((IOM_Type *)IOM_BASE)
-#define LPTIM ((LPTIM_Type *)LPTIM_BASE)
-#define WDT ((WDT_Type *)WDT_BASE)
+/* Peripheral declaration */
+#define EFC             ((EFC_Type *)EFC_BASE)
+#define SYSC            ((SYSC_Type *)SYSC_BASE)
+#define TIMERS          ((TIMERS_Type *)TIMERS_BASE)
+#define TIM1            ((TIM_Type *)TIM1_BASE)
+#define TIM2            ((TIM_Type *)TIM2_BASE)
+#define TIM3            ((TIM_Type *)TIM3_BASE)
+#define TIM4            ((TIM_Type *)TIM4_BASE)
+#define UART1           ((UART_Type *)UART1_BASE)
+#define ANAC            ((ANAC_Type *)ANAC_BASE)
+#define IOM             ((IOM_Type *)IOM_BASE)
+#define LPTIM           ((LPTIM_Type *)LPTIM_BASE)
+#define WDT             ((WDT_Type *)WDT_BASE)
 
 /** @} */ /* End of group Device_Peripheral_Registers */
 /** @} */ /* End of group Phonix02 */
