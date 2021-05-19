@@ -83,19 +83,28 @@ void GPIO_PinConfigStrongDrive(int pin, ControlStatus ctl) {
  *
  * @return int:val
  */
-int GPIO_GetData(void) { return IOM->DATA; }
+int GPIO_GetData(void)
+{
+	return IOM->DATA;
+}
 /**
  * @brief set pin
  *
  * @param pin :GPIO_PINxx    surport '|' combine
  */
-void GPIO_SetPin(int pin) { IOM->DATA |= pin; }
+void GPIO_SetPin(int pin)
+{
+	IOM->DATA |= pin;
+}
 /**
  * @brief clear pin
  *
  * @param pin :GPIO_PINxx    surport '|' combine
  */
-void GPIO_ClrPin(int pin) { IOM->DATA &= ~pin; }
+void GPIO_ClrPin(int pin)
+{
+	IOM->DATA &= ~pin;
+}
 
 /**
  * @brief pin interrupt configure
