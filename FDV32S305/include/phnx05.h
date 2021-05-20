@@ -211,8 +211,8 @@ typedef enum
 
 /* main flash and SRAM memory map */
 
-#define FLASH_BASE     ((unsigned int)0x00002000UL)  /*!< main FLASH base address */
-#define SRAM_BASE      ((unsigned int)0x0000B000UL)  /*!< SRAM0 base address      */
+#define FLASH_BASE     (0x00002000UL)  /*!< main FLASH base address */
+#define SRAM_BASE      (0x0000B000UL)  /*!< SRAM0 base address      */
 
 /* Peripheral memory map */
 #define EFC_BASE        0x0000C000UL

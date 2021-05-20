@@ -10,9 +10,10 @@
 
 
 #include "lib_include.h"
+#include "test.h"
 
 
-#define LED_RED    GPIO_PIN3
+#define LED_RED    GPIO_PIN14
 #define LED_GREEN  GPIO_PIN2
 
 #define LED_OFF(pin) GPIO_SetPin(pin)
@@ -24,7 +25,7 @@ int main(void)
 	GPIO_PinConfigure(LED_GREEN | LED_RED, DISABLE, ENABLE, DISABLE, DISABLE, DISABLE);
 	GPIO_SetPin(LED_GREEN | LED_RED);
 
-	printf("Hello world\r\n");
+	test_entry();
 
 	while(1)
 	{
