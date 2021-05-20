@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "test.h"
+#include "test_wdt.h"
 #include "wdt.h"
 
 static void wdt_poweron_status(void)

@@ -21,9 +21,6 @@
 #define TEST_CASE_SUCCEEDED_ADDR    (TEST_CASE_RESULT_BASE     + 0x04 )
 #define TEST_CASE_FAILED_ADDR       (TEST_CASE_RESULT_BASE     + 0x08 )
 
-//wdt
-#define WDT_LOG_ADDR                (TEST_WDT_BASE)
-
 #define xprintf
 
 static int g_case_total;
@@ -45,30 +42,35 @@ static int g_case_failed;
 
 #define UNITEST_EQUALS(_a, _b, _addr, _offset) do {                       \
     g_case_total++;                                                       \
+    REG32(TEST_CASE_TOTAL_ADDR) = g_case_total;                           \
     INTERNAL_USE_ONLY_CASE_SHOW();                                        \
     if ((_a) == (_b)) {                                                   \
         INTERNAL_USE_ONLY_SUCCEEDED(_a, _b);                              \
         REG32(_addr) |= BIT(_offset);                                     \
         g_case_succeeded++;                                               \
+        REG32(TEST_CASE_SUCCEEDED_ADDR) = g_case_succeeded;               \
     }                                                                     \
     else {                                                                \
         INTERNAL_USE_ONLY_FAILED(_a, _b);                                 \
         REG32(_addr) &= ~BIT(_offset);                                    \
         g_case_failed++;                                                  \
+        REG32(TEST_CASE_FAILED_ADDR) = g_case_failed;                     \
     }                                                                     \
 	xprintf("\n");                                                        \
 } while (0)
 
-#define UNITEST_DIFFERS(_a, _b) do {                                      \
+#define UNITEST_DIFFERS(_a, _b, _addr, _offset) do {                      \
     g_case_total++;                                                       \
     INTERNAL_USE_ONLY_CASE_SHOW();                                        \
     if ((_a) == (_b)) {                                                   \
         INTERNAL_USE_ONLY_FAILED(_a, _b);                                 \
+        REG32(_addr) &= ~BIT(_offset);                                    \
         g_case_failed++;                                                  \
     }                                                                     \
     else {                                                                \
         INTERNAL_USE_ONLY_SUCCEEDED(_a, _b);                              \
         g_case_succeeded++;                                               \
+        REG32(_addr) |= BIT(_offset);                                     \
     }                                                                     \
 	xprintf("\n");                                                        \
 } while (0)
