@@ -30,17 +30,30 @@ typedef enum wdt_log_offset
 
 static void wdt_poweron(void)
 {
-	UNITEST_EQUALS(WDT_RST_REG,  0x00,  WDT_LOG_ADDR, WDT_RST_REG_POWERON_POS);
-	UNITEST_EQUALS(WDT_CR_REG,   0x70f, WDT_LOG_ADDR, 2);
+	UNITEST_EQUALS(WDT_RST_REG,  0x00,  WDT_LOG_EQUALS_ADDR, WDT_RST_REG_POWERON_POS);
+	UNITEST_EQUALS(WDT_CR_REG,   0x70f, WDT_LOG_EQUALS_ADDR, WDT_CR_REG_POWERON_POS);
 }
 
 static void wdt_init(int mode)
 {
-
+	UNITEST_EQUALS(WDT_RST_REG,  0x00,  WDT_LOG_EQUALS_ADDR , WDT_RST_REG_INIT_POS);
+	UNITEST_EQUALS(WDT_CR_REG,   0x70f, WDT_LOG_EQUALS_ADDR,  WDT_CR_REG_INIT_POS);
 }
 
 static void wdt_run(int mode)
 {
+	switch(mode)
+	{
+	case WDT_OV_INT:
+		break;
+	case WDT_OV_RST:
+		break;
+	default:
+		break;
+	}
+
+	UNITEST_EQUALS(WDT_RST_REG,  0x00,  WDT_LOG_EQUALS_ADDR , WDT_RST_REG_RUN_POS);
+	UNITEST_EQUALS(WDT_CR_REG,   0x70f, WDT_LOG_EQUALS_ADDR,  WDT_CR_REG_RUN_POS);
 
 }
 
