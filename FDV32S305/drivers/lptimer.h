@@ -14,12 +14,13 @@
 
 // register  defines
 #define LPTIM_CR_REG               REG32(LPTIM_BASE + 0x00)
-#define LPTIM_CFG_                 REG REG32(LPTIM_BASE + 0x04)
+#define LPTIM_CFG_REG              REG32(LPTIM_BASE + 0x04)
 #define LPTIM_CNT_REG              REG32(LPTIM_BASE + 0x08)
 #define LPTIM_INTSTS_REG           REG32(LPTIM_BASE + 0x0c)
 
 // register bits defines
 // LPTIM_CR
+#define LPTIM_PS                   BITS(4, 6)
 #define LPTIM_CR_IE                BIT(3)
 #define LPTIM_CR_PITE              BIT(2)
 #define LPTIM_CR_EN                BIT(0)
