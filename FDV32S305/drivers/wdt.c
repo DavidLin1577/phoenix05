@@ -40,6 +40,7 @@ void WDT_Init(int iDel, eOVModeType iOVMode)
     int iTmp = 1;
 
     PARAM_CHECK((iOVMode != WDT_OV_INT) && (iOVMode != WDT_OV_RST));
+
     SYSC->CLKENCFG |= SYSC_CLKENCFG_LPWDT_PCKEN;
 
     iDel = iDel >> 2;
@@ -55,6 +56,9 @@ void WDT_Init(int iDel, eOVModeType iOVMode)
     } else {
         WDT_CR_REG &= ~WDT_CR_WINTEN;
     }
+
+    SYSC_WPT_UNLOCK();
+    SYSC_CLKCTRCFG_REG |= SYSC_CLKCTRCFG_LPWDT_CKEN;
 }
 
 void WDT_Start(void)

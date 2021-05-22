@@ -49,8 +49,8 @@
 
 #define SYSC_WPT_UNLOCK()                         \
 {                                                 \
-    SYSC->WRPROCFG = 0x5a5a;                      \
-    SYSC->WRPROCFG = 0xa5a5;                      \
+    SYSC->WRPROCFG = SYSC_WRPROCFG_V0;            \
+    SYSC->WRPROCFG = SYSC_WRPROCFG_V1;            \
 }
 
 // SYSC_CLKENCFG
