@@ -14,29 +14,30 @@
 /**
  * @brief LPtimer init
  *
- * @param iClkSrc: PMU_CR_LPTCLKSEL_LRC
  * @param iDel:  delay ms (lrc 262s,xtl max65s)
  * @param iMode :LPT_SIG_TIME_CNT , LPT_PIT_CNT
  * note:clk source = lrc  at least 4ms err,
  */
-void LPT_Init(int iClkSrc, int iDel, int iMode)
+void LPT_Init(int iDel, int iMode)
 {
     int iTmp = 1;
-    PARAM_CHECK((iClkSrc != PMU_CR_LPTCLKSEL_LRC));
     PARAM_CHECK((iMode != LPT_SIG_TIME_CNT) && (iMode != LPT_PIT_CNT));
     SYSC->CLKENCFG |= SYSC_CLKENCFG_LPTIM_CKEN;
 
     iTmp = iDel>>2;
 
     PARAM_CHECK((iTmp > 0xffff) || (iTmp < 1));
+    LPTIM->CR  |= 1 << 4;
     LPTIM->CFG = iTmp - 1;
     if (iMode == LPT_SIG_TIME_CNT)
     {
         LPTIM_CR_REG &= ~LPTIM_CR_PITE;
-    } else
+    }
+    else
     {
         LPTIM_CR_REG |= LPTIM_CR_PITE;
     }
+
     LPTIM->CR |= LPTIM_CR_EN;
 }
 

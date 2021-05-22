@@ -1,6 +1,6 @@
 #include <demo.h>
 
-#define DEMO_EN              (1)
+#define DEMO_EN              (0)
 #define WDT_DEMO_EN          (0)
 #define LPTIMER_DEMO_EN      (1)
 

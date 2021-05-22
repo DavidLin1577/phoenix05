@@ -14,8 +14,7 @@
 /**
  * @brief select system clock source
  *
- * @param clkSrc :SYSC_CLK_SRC_HRC  , SYSC_CLK_SRC_LRC , SYSC_CLK_SRC_XTH ,
- * SYSC_CLK_SRC_XTL
+ * @param clkSrc :SYSC_CLK_SRC_HRC  , SYSC_CLK_SRC_LRC
  */
 void SYSC_SelectClockSource(int clkSrc) {
     PARAM_CHECK((clkSrc != SYSC_CLK_SRC_HRC) && (clkSrc != SYSC_CLK_SRC_LRC));

@@ -42,7 +42,7 @@ typedef enum _CNT_MODE
 #define LPT_ClrIntFlag() { LPTIM_INTSTS_REG = LPTIM_STS; }
 
 // lptimer function
-void LPT_Init(int iClkSrc, int iDel, int iMode);
+void LPT_Init(int iDel, int iMode);
 void LPT_DeInit(void);
 void LPT_EnableControl(int iCtrl);
 void LPT_EnableIRQ(void);

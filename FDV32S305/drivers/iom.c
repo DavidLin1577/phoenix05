@@ -66,19 +66,6 @@ void GPIO_PinConfigure(int pin, int analogEn, int outputEn, int puEn, int pdEn,
 }
 
 /**
- * @brief port pin config strong drive
- *
- * @param pin :GPIO_PINxx    surport '|' combine
- * @param ctl :ENABLE , DISABLE
- */
-void GPIO_PinConfigStrongDrive(int pin, ControlStatus ctl) {
-    if (ctl == ENABLE) {
-        IOM->DRS |= pin;
-    } else {
-        IOM->DRS &= ~pin;
-    }
-}
-/**
  * @brief get data register value
  *
  * @return int:val
