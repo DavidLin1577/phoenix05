@@ -2,6 +2,10 @@
 #include "wdt_demo.h"
 #include "demo.h"
 
+#define WDT_DEMO_EN          (0)
+
+#if WDT_DEMO_EN
+
 void wdt_int_demo(void)
 {
 	WDT_Init(20000, WDT_OV_INT);
@@ -47,3 +51,7 @@ void NMI_Handler(void)
 
     WDT_ClearIntFlag();
 }
+#else
+__attribute__((weak)) void wdt_demo(void){};
+#endif
+

@@ -3,6 +3,10 @@
 #include "lptimer.h"
 #include "demo.h"
 
+#define LPTIMER_DEMO_EN      (0)
+
+#if LPTIMER_DEMO_EN
+
 void lptimer_pit_demo(void)
 {
     LPT_Init(500, LPT_PIT_CNT);
@@ -25,8 +29,6 @@ void lptimer_sig_demo(void)
     LPT_EnableIRQ();
     LPT_EnableControl(ENABLE);
     LPT_ClrIntFlag();
-
-    EnableGlobleIRQ();
 
 	GPIO_PinConfigure(LED_RED, DISABLE, ENABLE, DISABLE, DISABLE, DISABLE);
 	GPIO_SetPin(LED_RED);
@@ -59,4 +61,6 @@ void LPTIMER_IrqHandler(void)
 
     LPT_ClrIntFlag();
 }
-
+#else
+__attribute__((weak)) void lptimer_demo(void){};
+#endif

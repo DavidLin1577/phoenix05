@@ -66,7 +66,7 @@ void Timer_Timing_Init(timer_t timer,int delay)
     	TIM4->TCR &= ~TIMER_TCR_PWMON;
     	TIM4->TCR &= ~TIMER_TCR_TGC;
     	TIM4->TCR &= ~TIMER_TCR_TCS;
-    	TIM4->TCR |= 0x01 << 2;
+    	TIM4->TCR |= 0x11 << 2;
     	TIM4->TCR |= TIMER_TCR_TON;
     	TIM4->TN   = delay;
     	TIMERS->TIE |= TIMER4_TIE;
