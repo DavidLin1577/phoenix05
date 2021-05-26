@@ -3,7 +3,7 @@
 #include "timer.h"
 #include "demo.h"
 
-#define TIMER_DEMO_EN        (1)
+#define TIMER_DEMO_EN        (0)
 
 #if TIMER_DEMO_EN
 

@@ -75,20 +75,20 @@
 #define UART_IRQ_TYPE_RX               (1 << 2)
 
 /* function declarations */
-void UART_Init(UART_Type *psUart, int mode, int iBaud);
-void UART_DeInit(UART_Type *psUart);
-void UART_RcvVerifyCfg(UART_Type *psUart, int chk);
-void UART_EnableControl(UART_Type *psUart, int enType);
-void UART_EnableIRQ(UART_Type *psUart, int type);
-void UART_DisableIRQ(UART_Type *psUart, int type);
-void UART_Send(UART_Type *psUart, u8 u8Dat);
-u8   UART_Receive(UART_Type *psUart);
-void UART_Send9BitData(UART_Type *psUart, u16 dat);
-u16  UART_Receive9BitData(UART_Type *psUart);
-void UART_WriteData(UART_Type *psUart, u16 dat);
-u16  UART_ReadData(UART_Type *psUart);
-void UART_SetAddrAndMask(UART_Type *psUart, u8 addr, u8 addrCMPBits);
-u32  UART_GetIntFlag(UART_Type *psUart);
-void UART_ClrIntFlag(UART_Type *psUart, u32 val);
+void UART_Init(int mode, int iBaud);
+void UART_DeInit(void);
+void UART_RcvVerifyCfg(int chk);
+void UART_EnableControl(int enType);
+void UART_EnableIRQ(int type);
+void UART_DisableIRQ(int type);
+void UART_Send(u8 u8Dat);
+u8   UART_Receive(void);
+void UART_Send9BitData(u16 dat);
+u16  UART_Receive9BitData(void);
+void UART_WriteData(u16 dat);
+u16  UART_ReadData(void);
+void UART_SetAddrAndMask(u8 addr, u8 addrCMPBits);
+u32  UART_GetIntFlag(void);
+void UART_ClrIntFlag(u32 val);
 
 #endif /*__UART_H__*/
