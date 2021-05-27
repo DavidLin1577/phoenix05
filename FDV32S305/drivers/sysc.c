@@ -93,13 +93,28 @@ void SYSC_TestClkOutControl(int div,ControlStatus clt)
     SYSC->TESTCKSEL = (clt << 7) | div;
 }
 
-int SYSC_GetAPBCLK(void)
+int SYSC_APBCLK_Get(void)
 {
-    return (SystemCoreClock / (((SYSC->CLKCTRCFG & SYSC_CLKCTRCFG_APB_CLK_DIV) >> SYSC_CLKCTRCFG_APB_CLK_DIV_pos) +  1) /  \
-    (((SYSC->CLKCTRCFG & SYSC_CLKCTRCFG_AHB_CLK_DIV) >> SYSC_CLKCTRCFG_AHB_CLK_DIV_pos) + 1));
+	int div2  = 0;
+	int div1  = 0;
+	int clock = 0;
+
+	div2 = SRC_CLK_DIV2();
+	div1 = SRC_CLK_DIV1();
+
+	clock = SystemCoreClock/div1;
+	clock = clock/div2;
+
+    return clock;
 }
 
-int SYSC_GetAHBCLK(void)
+int SYSC_AHBCLK_Get(void)
 {
-    return (SystemCoreClock / (((SYSC->CLKCTRCFG & SYSC_CLKCTRCFG_AHB_CLK_DIV) >> SYSC_CLKCTRCFG_AHB_CLK_DIV_pos) + 1));
+	int div1  = 0;
+	int clock = 0;
+
+    //div1  = SRC_CLK_DIV1();
+    //clock = SystemCoreClock/div1;
+
+    return clock;
 }

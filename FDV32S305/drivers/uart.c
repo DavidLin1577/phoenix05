@@ -23,16 +23,20 @@
  */
 void UART_Init(int mode, int iBaud)
 {
-    u32 pclk;
+    u32 pclk = 0;
+    u32 div1 = 0;
+    u32 div2 = 0;
+    u32 test;
     PARAM_CHECK((mode != UART_MODE_10B_ASYNC) && (mode != UART_MODE_8B_SYNC) &&
                 (mode != UART_MODE_11B_ASYNC));
 
     SystemCoreClockUpdate();
-    pclk = SYSC_GetAPBCLK();
 
-    SYSC->CLKENCFG |= SYSC_CLKENCFG_IOM_PCKEN;
+    pclk = SYSC_APBCLK_Get();
+
     SYSC->CLKENCFG |= SYSC_CLKENCFG_UART_PCKEN;
     UART1->SCON = 0;
+
     if (mode == UART_MODE_8B_SYNC)
     {
         PARAM_CHECK(pclk / (2 * iBaud) < 1);
@@ -41,8 +45,8 @@ void UART_Init(int mode, int iBaud)
     }
     else if (mode == UART_MODE_10B_ASYNC)
     {
-        PARAM_CHECK(pclk / (16 * iBaud) < 1);
         UART1->BDIV = (pclk + 8 * iBaud) / (16 * iBaud) - 1;
+        //REG32(0xB700) = UART1->BDIV;
         UART1->SCON = ((UART_MODE_10B_ASYNC) << UART_SCON_SM01_pos) | UART_SCON_REN;
     }
     else

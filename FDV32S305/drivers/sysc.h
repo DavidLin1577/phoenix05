@@ -92,6 +92,18 @@
 #define SYSC_ADC_SCLK_DIV                         BITS(0, 3)
 #define SYSC_ADC_SCLK_DIV_pos                     (0) // 0-0f:div(x+1)*2
 
+
+#define SRC_CLK_DIV2()                                                        \
+	((SYSC->CLKCTRCFG & SYSC_CLKCTRCFG_APB_CLK_DIV) >> SYSC_CLKCTRCFG_APB_CLK_DIV_pos) + 1
+
+#define SRC_CLK_DIV1()                                                        \
+	((SYSC->CLKCTRCFG & SYSC_CLKCTRCFG_AHB_CLK_DIV) >> SYSC_CLKCTRCFG_AHB_CLK_DIV_pos) + 1
+
+#define SYSC_GetAPBCLK()                                                      \
+    (SystemCoreClock / (SRC_CLK_DIV2()) / (SRC_CLK_DIV1()))
+#define SYSC_GetAHBCLK()                                                      \
+    (SystemCoreClock / (SRC_CLK_DIV1()))
+
 // extend define
 #define SYSC_CLK_SRC_HRC                          (0)
 #define SYSC_CLK_SRC_LRC                          (1)
@@ -134,9 +146,10 @@ typedef enum _CLK_EN
 void SYSC_SelectClockSource(int clkSrc);
 void SYSC_SetAPBCLKDiv(int div);
 void SYSC_SetAHBCLKDiv(int div);
+int SYSC_APBCLK_Get(void);
+int SYSC_AHBCLK_Get(void);
 void SYSC_ResetPeripher(eRSTP_Type module);
 void SYSC_PCLKEnable(ePCLKEN_Type perp);
 void SYSC_PCLKDisable(ePCLKEN_Type perp);
 void SYSC_SetANAC_CLKDiv(int div, int m500kDiv);
-int  SYSC_GetAPBCLK(void);
 #endif /*__SYSC_H__*/

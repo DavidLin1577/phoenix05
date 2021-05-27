@@ -175,6 +175,7 @@
 #define PIN_INT_POL_HIGH            (1)
 
 // extern function declare
+void GPIO_PinSelect(int pin, int fun);
 void GPIO_PinConfigure(int pin, int analogEn, int outputEn, int puEn, int pdEn,
                        int outOpenDrainEn);
 int  GPIO_GetData(void);
