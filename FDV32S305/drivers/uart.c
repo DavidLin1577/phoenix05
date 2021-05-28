@@ -206,6 +206,7 @@ u16 UART_Receive9BitData(void)
  * @note 不查询发送完成标�??? */
 void UART_WriteData(u16 dat)
 {
+
     if (dat & (1 << 8))
     {
     	UART1->SCON |= UART_SCON_TB8;
@@ -215,6 +216,21 @@ void UART_WriteData(u16 dat)
     	UART1->SCON &= ~UART_SCON_TB8;
     }
     UART1->SBUF = dat;
+
+    while (((UART1->ISR) & 0x00000001) != 0x00000001)
+    {
+    	__asm("NOP");
+    }
+    UART1->ISR = (0xff << 0); // clear intf
+    if (dat == '\n')
+    {
+        UART1->SBUF = '\r';
+        while (((UART1->ISR) & 0x00000001) != 0x00000001)
+        {
+        	__asm("NOP");
+        }
+        UART1->ISR = (0xff << 0); // clear intf
+    }
 }
 /**
  * @brief 读接收寄存器数据包括bit8

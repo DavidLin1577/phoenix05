@@ -20,7 +20,7 @@ typedef enum timer
 	TIMER3 = 3,
 	TIMER4 = 4,
 	TIMER_MAX,
-} timer_t;
+} Timer_t;
 
 #define TIMER0_CTRL_EN                          BIT(7)
 #define TIMER1_CTRL_EN                          BIT(0)
@@ -29,7 +29,7 @@ typedef enum timer
 #define TIMER4_CTRL_EN                          BIT(0)
 
 //reg TIE
-#define TIMER_TIE                               BITS(0, 4)
+#define Timer_tIE                               BITS(0, 4)
 #define TIMER0_TIE                              BIT(0)
 #define TIMER1_TIE                              BIT(1)
 #define TIMER2_TIE                              BIT(2)
@@ -37,7 +37,7 @@ typedef enum timer
 #define TIMER4_TIE                              BIT(4)
 
 //reg TIF
-#define TIMER_TIF                               BITS(0, 4)
+#define Timer_tIF                               BITS(0, 4)
 #define TIMER0_TIF                              BIT(0)
 #define TIMER1_TIF                              BIT(1)
 #define TIMER2_TIF                              BIT(2)
@@ -57,15 +57,15 @@ typedef enum timer
 #define TIMER0_T0RLD_T0RLD                      BITS(0, 7)
 
 //reg TCR for timer1-timer4
-#define TIMER_TCR_PWMON                         BIT(7)
-#define TIMER_TCR_INTSE                         BIT(6)
-#define TIMER_TCR_TGC                           BIT(4)
-#define TIMER_TCR_TCKS                          BITS(2, 3)
-#define TIMER_TCR_TCS                           BIT(1)
-#define TIMER_TCR_TON                           BIT(0)
+#define Timer_tCR_PWMON                         BIT(7)
+#define Timer_tCR_INTSE                         BIT(6)
+#define Timer_tCR_TGC                           BIT(4)
+#define Timer_tCR_TCKS                          BITS(2, 3)
+#define Timer_tCR_TCS                           BIT(1)
+#define Timer_tCR_TON                           BIT(0)
 
 //reg TN for timer1-timer4
-#define TIMER_TN_PWMON                          BITS(0, 15)
+#define Timer_tN_PWMON                          BITS(0, 15)
 
 //reg PWMPD for timer1-timer4
 #define TIMER_PWMPD                             BITS(0, 15)
@@ -75,14 +75,14 @@ typedef enum timer
 
 
 // timer function declare
-void Timer_Timing_Init(timer_t timer,int delay);
-void Timer_Count_Init(timer_t timer,int count);
-void Timer_PWMInit(timer_t timer, int freq, int duty);
-void Timer_EnableControl(timer_t timer, int iCtrl);
-void Timer_EnableIRQ(timer_t timer);
-void Timer_DeInit(timer_t timer);
-void Timer_DisableIRQ(timer_t timer);
-FlagStatus Timer_GetIntFlag(timer_t timer);
-void Timer_ClrIntFlag(timer_t timer) ;
+void Timer_timing_Init(Timer_t timer,int delay);
+void Timer_Count_Init(Timer_t timer,int count);
+void Timer_PWMInit(Timer_t timer, int freq, int duty);
+void Timer_EnableControl(Timer_t timer, int iCtrl);
+void Timer_EnableIRQ(Timer_t timer);
+void Timer_DeInit(Timer_t timer);
+void Timer_DisableIRQ(Timer_t timer);
+FlagStatus Timer_GetIntFlag(Timer_t timer);
+void Timer_ClrIntFlag(Timer_t timer) ;
 
 #endif /*__TIMER_H__ */
