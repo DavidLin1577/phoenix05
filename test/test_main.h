@@ -4,7 +4,7 @@
 #include "test.h"
 #include "test_wdt.h"
 
-enum test_mode
+typedef enum test_mode
 {
     MODEL = 0,
     FUNC  = 1,
@@ -88,6 +88,9 @@ typedef enum wdt_func
     WDT_FUNC_CTL_NO_RUN = 2,                  //非正常序列启动
     WDT_FUNC_GET_STS = 3,                     //读运行状态或中断标志信息
     WDT_FUNC_FEED = 4,                        //1ms喂狗一次
+	WDT_FUNC_INT = 5,                         //看门狗中断功能测试
+	WDT_FUNC_OVT = 6,                         //看门狗溢出功能测试
+	WDT_FUNC_DEINIT = 7,                      //看门狗关闭功能测试
 } wdt_func_t;
 
 

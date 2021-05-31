@@ -36,7 +36,7 @@ typedef enum _OV_MODE
 #define WDT_GetIntFlag() (WDT_CR_REG & WDT_CR_WDTINTFLAG)
 
 // watch dog function declare
-void WDT_Init(int iDel, eOVModeType iOVMode);
+void WDT_Init(int ps, int iDel, eOVModeType iOVMode);
 void WDT_Start(void);
 void WDT_Clear(void);
 void WDT_ClearIntFlag(void);

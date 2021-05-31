@@ -88,10 +88,8 @@ BOOL EFC_Init(void) {
  * @param Data programm data
  * @return eReturnType:: EFC_SUCCESS = 0  , EFC_SING_PRG_FAIL !=0;
  */
-eReturnType EFC_SingleProgram(u32 Addr, int iPrgType, u32 Data) {
-    PARAM_CHECK(
-        (Addr < 0x10100000) || ((Addr > 0x1011ffff) && (Addr < 0x10140000)) ||
-        ((Addr > 0x10140dff) && (Addr < 0x10180000)) || (Addr > 0x101803ff));
+eReturnType EFC_SingleProgram(u32 Addr, int iPrgType, u32 Data)
+{
     u32 stat = EFC_STS_REG;
     EFC_STS_REG = stat;
     EFC_OPR_OPEN(EFC_OPR_OPRMODE_SIG_PRG);
@@ -121,10 +119,7 @@ eReturnType EFC_SingleProgram(u32 Addr, int iPrgType, u32 Data) {
  * @note:eeprom only erase one word锛?4Byte)
  */
 eReturnType EFC_PageErase(u32 u32Addr) {
-    PARAM_CHECK((u32Addr < 0x10100000) ||
-                ((u32Addr > 0x1011ffff) && (u32Addr < 0x10140000)) ||
-                ((u32Addr > 0x10140dff) && (u32Addr < 0x10180000)) ||
-                (u32Addr > 0x101803ff));
+
     u32 stat = EFC_STS_REG;
     EFC_STS_REG = stat;
     EFC_OPR_OPEN(EFC_OPR_OPRMODE_PAGE_ERASE);
@@ -144,11 +139,9 @@ eReturnType EFC_PageErase(u32 u32Addr) {
  * @return eReturnType :EFC_SUCCESS (=0) , EFC_CHIP_ERASE_FAIL (!=0)
  * @note: erase flash and nvr1-7,no nvr8 and eeprom
  */
-eReturnType EFC_ChipErase(u32 u32Addr) {
-    PARAM_CHECK((u32Addr < 0x10100000) ||
-                ((u32Addr > 0x1011ffff) && (u32Addr < 0x10140000)) ||
-                ((u32Addr > 0x10140dff) && (u32Addr < 0x10180000)) ||
-                (u32Addr > 0x101803ff));
+eReturnType EFC_ChipErase(u32 u32Addr)
+{
+
     u32 stat = EFC_STS_REG;
     EFC_STS_REG = stat;
     EFC_OPR_OPEN(EFC_OPR_OPRMODE_CHIP_ERASE);
@@ -170,8 +163,8 @@ eReturnType EFC_ChipErase(u32 u32Addr) {
  * @param iPrgType :EFC_PRG_BYTE , EFC_PRG_HWORD , EFC_PRG_WORD
  * @return BOOL:TRUE , FALSE
  */
-BOOL EFC_EEPROMWrite(u32 addr, u32 data, int iPrgType) {
-    PARAM_CHECK((addr < 0x10180000) || (addr > 0x101803ff));
+BOOL EFC_EEPROMWrite(u32 addr, u32 data, int iPrgType)
+{
     if (EFC_PageErase(addr) != EFC_SUCCESS) {
         return FALSE;
     }

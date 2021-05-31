@@ -5,6 +5,7 @@
 #include "lptimer_demo.h"
 #include "timer_demo.h"
 #include "uart_demo.h"
+#include "iom.h"
 
 #define LED_RED             GPIO_PIN14
 #define LED_ON(pin)         GPIO_SetPin(pin)

@@ -15,6 +15,10 @@ int main(void)
 {
 	void* param;
 
+	GPIO_PinConfigure(LED_RED, DISABLE, ENABLE, DISABLE, DISABLE, DISABLE);
+	GPIO_SetPin(LED_RED);
+	LED_ON(LED_RED);
+
 	demo_entry();
 	test_entry();
 

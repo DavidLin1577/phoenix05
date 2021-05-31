@@ -10,6 +10,7 @@ void demo_entry(void)
     lptimer_demo();
     timer_demo();
     uart_demo();
+    EFC_Init();
 
 #endif
 }

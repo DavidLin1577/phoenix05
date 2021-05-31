@@ -3,7 +3,7 @@
 #include "lptimer.h"
 #include "demo.h"
 
-#define LPTIMER_DEMO_EN      (0)
+#define LPTIMER_DEMO_EN      (1)
 
 #if LPTIMER_DEMO_EN
 

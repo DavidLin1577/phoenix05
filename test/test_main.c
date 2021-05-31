@@ -1,6 +1,7 @@
 #include "test_main.h"
 #include "lib_include.h"
 #include "demo.h"
+#include "test_wdt.h"
 
 #define TEST_DEBUG_EN        (1)
 
@@ -122,8 +123,12 @@ int test_entry(void)
 				 }
 				 break;
 			 case MODEL_IOM:
+				 TestModelIOM(func, item, para);
+				 test_pass();
 				 break;
 			 case MODEL_WDT:
+				 TestModelWDT(func, item, para);
+				 test_pass();
 				 break;
 			 case MODEL_LPTIMER:
 				 break;

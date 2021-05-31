@@ -3,7 +3,6 @@
 
 #include "test.h"
 
-void test_wdt();
+void TestModelWDT(u8 func, u8 item, u8 para);
 
 #endif /*_TEST_WDT_H_*/
-

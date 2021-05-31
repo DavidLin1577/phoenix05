@@ -3,7 +3,7 @@
 #include "timer.h"
 #include "demo.h"
 
-#define TIMER_DEMO_EN        (0)
+#define TIMER_DEMO_EN        (1)
 
 #if TIMER_DEMO_EN
 
@@ -16,7 +16,7 @@ void timer_timing_demo(void)
 	case TIMER0:
 		break;
 	case TIMER1:
-		Timer_Timing_Init(TIMER1, 10000);
+		Timer_timing_Init(TIMER1, 10000);
         PLIC_EnableIRQ(TIMER1_IRQn);
         PLIC_SetPriority(TIMER1_IRQn, 1);
         Timer_EnableIRQ(TIMER1);
@@ -24,7 +24,7 @@ void timer_timing_demo(void)
         Timer_ClrIntFlag(TIMER1);
         break;
 	case TIMER2:
-		Timer_Timing_Init(TIMER2, 200);
+		Timer_timing_Init(TIMER2, 200);
         PLIC_EnableIRQ(TIMER2_IRQn);
         PLIC_SetPriority(TIMER2_IRQn, 1);
         Timer_EnableIRQ(TIMER2);
@@ -32,7 +32,7 @@ void timer_timing_demo(void)
         Timer_ClrIntFlag(TIMER2);
 		break;
 	case TIMER3:
-		Timer_Timing_Init(TIMER3, 300);
+		Timer_timing_Init(TIMER3, 300);
         PLIC_EnableIRQ(TIMER3_IRQn);
         PLIC_SetPriority(TIMER3_IRQn, 1);
         Timer_EnableIRQ(TIMER3);
@@ -40,7 +40,7 @@ void timer_timing_demo(void)
         Timer_ClrIntFlag(TIMER3);
 		break;
 	case TIMER4:
-		Timer_Timing_Init(TIMER4, 400);
+		Timer_timing_Init(TIMER4, 400);
         PLIC_EnableIRQ(TIMER4_IRQn);
         PLIC_SetPriority(TIMER4_IRQn, 1);
         Timer_EnableIRQ(TIMER4);

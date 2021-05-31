@@ -31,17 +31,21 @@
 /**
  * @brief wdt init
  *
+ * @param ps:  1-111  (1-128分频)
  * @param iDel:  delay ms  (lrc:max 256s)
  * @param iOVMode :WDT_OV_INT , WDT_OV_RST
  * note:clk source = lrc  at least 4ms err
  */
-void WDT_Init(int iDel, eOVModeType iOVMode)
+void WDT_Init(int ps, int iDel, eOVModeType iOVMode)
 {
     int iTmp = 1;
 
     PARAM_CHECK((iOVMode != WDT_OV_INT) && (iOVMode != WDT_OV_RST));
 
     SYSC->CLKENCFG |= SYSC_CLKENCFG_LPWDT_PCKEN;
+
+    //setting ps
+    WDT_CR_REG |= ps & 0xF00;
 
     iDel = iDel >> 2;
 

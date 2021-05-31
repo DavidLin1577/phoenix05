@@ -2,7 +2,6 @@
 #include "demo.h"
 
 #define UART_DEMO_EN          (1)
-
 #if UART_DEMO_EN
 
 static void delay(int cnt)
@@ -132,6 +131,6 @@ void MEXP_Handler(void)
 }
 
 #else
-__attribute__((weak)) void wdt_demo(void){};
+__attribute__((weak)) void uart_demo(void){};
 #endif
 
