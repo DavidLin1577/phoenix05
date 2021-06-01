@@ -24,12 +24,15 @@
  *
  * @return BOOL:TRUE , FALSE
  */
-BOOL EFC_Init(void) {
+BOOL EFC_Init(void)
+{
     SystemCoreClockUpdate();
-    if (SystemCoreClock < 1000000) {
+    if (SystemCoreClock < 1000000)
+    {
         return FALSE;
     }
-    if (SystemCoreClock == 1000000) {
+    if (SystemCoreClock == 1000000)
+    {
         EFC_WPT_UNLOCK();
         EFC->CR &= ~(EFC_CR_PRG2MDIV | EFC_CR_ERS2KDIV);
         EFC_WPT_UNLOCK();
@@ -45,7 +48,9 @@ BOOL EFC_Init(void) {
         EFC->TRCV = (0x4 << 16) | (0x1f << 9) | 0x79;
         EFC_WPT_UNLOCK();
         EFC->TERS = (0x09 << 7) | 0x46;
-    } else if (SystemCoreClock == 2000000) {
+    }
+    else if (SystemCoreClock == 2000000)
+    {
         EFC_WPT_UNLOCK();
         EFC->CR &= ~(EFC_CR_PRG2MDIV | EFC_CR_ERS2KDIV);
         EFC_WPT_UNLOCK();
@@ -61,7 +66,9 @@ BOOL EFC_Init(void) {
         EFC->TRCV = (0x6 << 16) | (0x3d << 9) | 0xf1;
         EFC_WPT_UNLOCK();
         EFC->TERS = (0x09 << 7) | 0x46;
-    } else {
+    }
+    else
+    {
         EFC_WPT_UNLOCK();
         EFC->CR &= ~(EFC_CR_PRG2MDIV | EFC_CR_ERS2KDIV);
         EFC_WPT_UNLOCK();
@@ -94,17 +101,23 @@ eReturnType EFC_SingleProgram(u32 Addr, int iPrgType, u32 Data)
     EFC_STS_REG = stat;
     EFC_OPR_OPEN(EFC_OPR_OPRMODE_SIG_PRG);
     if (iPrgType == EFC_PRG_BYTE)
+    {
         REG8(Addr) = Data;
-    else if (iPrgType == EFC_PRG_HWORD) {
+    }
+    else if (iPrgType == EFC_PRG_HWORD)
+    {
         PARAM_CHECK(Addr & 0x01);
         REG16(Addr) = Data;
-    } else {
+    }
+    else
+    {
         PARAM_CHECK(Addr & 0x03);
         REG32(Addr) = Data;
     }
     while (!EFC_STS_REG)
         ;
-    if (EFC_STS_REG != EFC_STS_CD) {
+    if (EFC_STS_REG != EFC_STS_CD)
+    {
         return EFC_SING_PRG_FAIL;
     }
     return EFC_SUCCESS;
@@ -126,7 +139,8 @@ eReturnType EFC_PageErase(u32 u32Addr) {
     REG32(u32Addr) = 0xffffffff;
     while (!EFC_STS_REG)
         ;
-    if (EFC_STS_REG != EFC_STS_CD) {
+    if (EFC_STS_REG != EFC_STS_CD)
+    {
         return EFC_PAGE_ERASE_FAIL;
     }
     return EFC_SUCCESS;
@@ -148,7 +162,8 @@ eReturnType EFC_ChipErase(u32 u32Addr)
     REG32(u32Addr) = 0xffffffff;
     while (!EFC_STS_REG)
         ;
-    if (EFC_STS_REG != EFC_STS_CD) {
+    if (EFC_STS_REG != EFC_STS_CD)
+    {
         return EFC_CHIP_ERASE_FAIL;
     }
     return EFC_SUCCESS;
@@ -165,19 +180,25 @@ eReturnType EFC_ChipErase(u32 u32Addr)
  */
 BOOL EFC_EEPROMWrite(u32 addr, u32 data, int iPrgType)
 {
-    if (EFC_PageErase(addr) != EFC_SUCCESS) {
+    if (EFC_PageErase(addr) != EFC_SUCCESS)
+    {
         return FALSE;
     }
     if (REG32(addr) != 0xffffffff)
         return FALSE;
     EFC_SingleProgram(addr, iPrgType, data);
-    if (iPrgType == EFC_PRG_BYTE) {
+    if (iPrgType == EFC_PRG_BYTE)
+    {
         if (REG8(addr) != (data & 0xff))
             return FALSE;
-    } else if (iPrgType == EFC_PRG_HWORD) {
+    }
+    else if (iPrgType == EFC_PRG_HWORD)
+    {
         if (REG16(addr) != (data & 0xffff))
             return FALSE;
-    } else {
+    }
+    else
+    {
         if (REG32(addr) != data)
             return FALSE;
     }

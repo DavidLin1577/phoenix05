@@ -173,9 +173,10 @@ typedef enum uart_item
 
 typedef enum efc_func
 {
-    EFC_FUNC_CFG = 0,                        //配置控制
-    EFC_FUNC_CHP_ERS = 1,                    //芯片擦除
-    EFC_FUNC_RD_STS = 2,                     //读状态
+    EFC_FUNC_INIT = 0,                       //初始化
+    EFC_FUNC_CFG = 1,                        //配置控制
+    EFC_FUNC_CHP_ERS = 2,                    //芯片擦除
+    EFC_FUNC_RD_STS = 3,                     //读状态
 }efc_func_t;
 
 typedef enum efc_item

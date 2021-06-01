@@ -160,6 +160,7 @@ int test_entry(void)
 				 para[1]  = UART_Receive();
 				 para[2]  = UART_Receive();
 				 input_info(model, func, item, para[0]);
+				 input_para(para[0], para[1], para[2], 0);
 				 TestModelWDT(func, item, para[0], para[1], para[2]);
 				 test_pass();
 				 break;
@@ -176,10 +177,9 @@ int test_entry(void)
 				 para[1]  = UART_Receive();
 				 para[2]  = UART_Receive();
 				 para[3]  = UART_Receive();
-				 para[4]  = UART_Receive();
 				 input_info(model, func, item, para[0]);
 				 input_para(para[0], para[1], para[2], para[3]);
-				 TestModelEFC(func, item, para[0], para[1], para[2], para[3], para[4]);
+				 TestModelEFC(func, item, para[0], para[1], para[2], para[3]);
 				 break;
 			 case MODEL_SYSC:
 				 break;

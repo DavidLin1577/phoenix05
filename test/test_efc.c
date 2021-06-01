@@ -26,23 +26,36 @@ static void test_fail(void)
     }
 }
 
-void TestModelEFC(u8 func, u8 item, u8 para0, u8 para1, u8 para2, u8 para3, u8 para4)
+static void test_pass(void)
+{
+	u8 i;
+	u8 msg[10]  = {'t','e','s','t',' ', 'o','k','\r'};
+    for(i = 0; i < sizeof(msg);i++)
+    {
+        UART_Send(msg[i]);
+    }
+}
+
+void TestModelEFC(u8 func, u8 item, u8 para0, u8 para1, u8 para2, u8 para3)
 {
     u8 value;
     u32 Addr;
     u8 type;
     u32 Dat;
 
-    EFC_Init();
-
     switch (func)
     {
+    case EFC_FUNC_INIT:
+    	EFC_Init();
+    	break;
     case EFC_FUNC_CFG:
         switch (item)
         {
         case EFC_CFG_SIG_PRG:
-            Addr = ((u32)(para3 << 24) | (u32)(para2 << 16) | (u32)(para1 << 8) |para0);
-            type  = para4;
+        	//Flash地址起始地址是0x2000,因为存储有代码，所以测试地址注意避开已经使用的区间，比如测试0x2000偏移10K的地址,0x4800
+            Addr = ((u32)(para0 << 8) | para1);
+            REG32(TEST_EFC_BASE) = Addr;
+            type  = para2;
             switch(type)
             {
             case EFC_PRG_BYTE:
@@ -55,23 +68,32 @@ void TestModelEFC(u8 func, u8 item, u8 para0, u8 para1, u8 para2, u8 para3, u8 p
             	Dat = 0xa5a5a5a5;
             	break;
             default:
+            	Dat = 0xffffffff;
             	break;
             }
             if( EFC_SingleProgram(Addr, type, Dat) != EFC_SUCCESS)
             {
             	test_fail();
             }
+            else
+            {
+            	test_pass();
+            }
             break;
         case EFC_CFG_RD:
-        	Addr = ((u32)(para3 << 24) | (u32)(para2 << 16) | (u32)(para1 << 8) |para0);
+        	Addr = ((u32)(para0 << 8) | para1);
             //printf("%x", REG32(Addr));
         	//通过putty查看Address对应值
             break;
         case EFC_CFG_PG_ERS:
-        	Addr = ((u32)(para3 << 24) | (u32)(para2 << 16) | (u32)(para1 << 8) |para0);
+        	Addr = ((u32)(para0 << 8) | para1);
             if (EFC_PageErase(Addr) != EFC_SUCCESS)
             {
             	test_fail();
+            }
+            else
+            {
+            	test_pass();
             }
             break;
 
