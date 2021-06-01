@@ -79,7 +79,8 @@ void NMI_Handler(void)
     {
         LED_ON(LED_RED);
         tog = 0;
-    } else
+    }
+    else
     {
         LED_OFF(LED_RED);
         tog = 1;
@@ -98,7 +99,7 @@ void TIMER1_IrqHandler(void)
 }
 #endif
 
-void TestModelWDT(u8 func, u8 item, u8 para)
+void TestModelWDT(u8 func, u8 item, u8 para0, u8 para1, u8 para2)
 {
 	u8 i;
     u8 msg[10]  = {0};
@@ -109,12 +110,8 @@ void TestModelWDT(u8 func, u8 item, u8 para)
         switch (item)
         {
         case WDT_CFG_PARM:
-            #if 0
-            u32 Del = ((u32)pu8Dat[PARM + 3] << 24) | ((u32)pu8Dat[PARM + 2] << 16) | ((u32)pu8Dat[PARM + 1] << 8) |
-                        pu8Dat[PARM];
             WDT_DeInit();
-            WDT_Init(Del, pu8Dat[PARM + 4], pu8Dat[PARM + 5]);
-            #endif
+            WDT_Init(para0, para1, para2);
             break;
         default:
             break;

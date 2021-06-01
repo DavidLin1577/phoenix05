@@ -2,6 +2,31 @@
 #include "lib_include.h"
 #include "test_main.h"
 
+static void iom_irq_info(u8 pin)
+{
+	u8 i;
+	u8 msg[20]  = {'i', 'n', 't', ' ', 'p', 'i', 'n', ' '};
+
+    msg[9] = pin + '0';
+    msg[10] = '\r';
+    for(i = 0; i < sizeof(msg);i++)
+    {
+        UART_Send(msg[i]);
+    }
+}
+
+static void iom_info(u8 value)
+{
+	u8 i;
+	u8 msg[20]  = {'i', 'o', 'm', ' ', 'i', 'n', 'f', 'o', ':'};
+
+    msg[10] = value + '0';
+    msg[11] = '\r';
+    for(i = 0; i < sizeof(msg);i++)
+    {
+        UART_Send(msg[i]);
+    }
+}
 
 void IOM_IrqHandler(void)
 {
@@ -10,90 +35,93 @@ void IOM_IrqHandler(void)
         if (IOM->INTF & (1 << i))
         {
             IOM->INTF = (1 << i);
-            //printf("int pin:%d", i);
+            iom_irq_info(i);
         }
     }
 }
 
-void TestModelIOM(u8 func, u8 item, u8 para)
+void TestModelIOM(u8 func, u8 item, u8 para0, u8 para1, u8 para2)
 {
     SYSC->CLKENCFG |= SYSC_CLKENCFG_IOM_PCKEN;
-#if 0
+    u16 Dat   = 0;
+    u16 tmp   = 0;
+    u8  value = 0;
+
     switch (func)
     {
     case IOM_FUNC_CFG:
         switch (item)
         {
         case IOM_CFG_AF:
-            u16 Dat = ( (u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
-            GPIO_PinSelect(Dat, pu8Dat[PARM + 2]);
+            Dat = ( (u16)((para1<< 8) | para0));
+            GPIO_PinSelect(Dat, para2);
             break;
         case IOM_CFG_AIN_EN:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
-            IOM->ADS |= tmp;
+            tmp = ((u16)((para1<< 8) | para0));
+            IOM->AINCTRL |= tmp;
             break;
         case IOM_CFG_AIN_DIS:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
-            IOM->ADS &= ~tmp;
+            tmp = ((u16)((para1<< 8) | para0));
+            IOM->AINCTRL &= ~tmp;
             break;
         case IOM_CFG_OE_EN:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->OE |= tmp;
             break;
         case IOM_CFG_OE_DIS:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->OE &= ~tmp;
             break;
         case IOM_CFG_PU_EN:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->PU |= tmp;
             break;
         case IOM_CFG_PU_DIS:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->PU &= ~tmp;
             break;
         case IOM_CFG_PD_EN:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->PD |= tmp;
             break;
         case IOM_CFG_PD_DIS:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->PD &= ~tmp;
             break;
         case IOM_CFG_OTYPE_EN:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->OTYPE |= tmp;
             break;
         case IOM_CFG_OTYPE_DIS:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->OTYPE &= ~tmp;
             break;
         case IOM_CFG_DRS_STRONG:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->DRS |= tmp;
             break;
         case IOM_CFG_DRS_WEAK:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->DRS &= ~tmp;
             break;
         case IOM_CFG_INT_TYPE_LVL:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->INT_TYPE |= tmp;
             break;
         case IOM_CFG_INT_TYPE_EDGE:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->INT_TYPE &= ~tmp;
             break;
         case IOM_CFG_INT_POL_HIGH:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->INT_POLARITY |= tmp;
             break;
         case IOM_CFG_INT_POL_LOW:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->INT_POLARITY &= ~tmp;
             break;
         case IOM_CFG_INT_EN:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             PLIC_SetPriority(IOM_IRQn, 1);
             PLIC_EnableIRQ(IOM_IRQn);
             PLIC_EnableIRQ(IOM_IRQn);
@@ -101,15 +129,15 @@ void TestModelIOM(u8 func, u8 item, u8 para)
             IOM->EXT_INTE |= tmp;
             break;
         case IOM_CFG_INT_DIS:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->EXT_INTE &= ~tmp;
             break;
         case IOM_CFG_OUT_DATA_HIGH:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->DATA |= tmp;
             break;
         case IOM_CFG_OUT_DATA_LOW:
-            u16 tmp = ((u16)pu8Dat[PARM + 1] << 8) | pu8Dat[PARM];
+            tmp = ((u16)((para1<< 8) | para0));
             IOM->DATA &= ~tmp;
             break;
         default:
@@ -117,10 +145,20 @@ void TestModelIOM(u8 func, u8 item, u8 para)
         }
         break;
     case IOM_FUNC_GET_DATA:
-        printf("%x", IOM->DATA);
+    	//打印高8位
+    	value = (IOM->DATA) >> 8;
+    	iom_info(value);
+    	//打印低8位
+    	value = (IOM->DATA) & 0x0F;
+    	iom_info(value);
         break;
     case IOM_FUNC_GET_STS:
-        printf("%x", IOM->INTF);
+    	//打印高8位
+    	value = (IOM->INTF) >> 8;
+    	iom_info(value);
+    	//打印低8位
+    	value = (IOM->INTF) & 0x0F;
+    	iom_info(value);
         break;
     case IOM_FUNC_CTL_DEBOUNCE_DIS:
         IOM->CTL &= ~IOM_CTL_DEBOUNCE;
@@ -143,5 +181,4 @@ void TestModelIOM(u8 func, u8 item, u8 para)
     default:
         break;
     }
-#endif
 }

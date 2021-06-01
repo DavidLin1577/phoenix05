@@ -45,7 +45,7 @@ void WDT_Init(int ps, int iDel, eOVModeType iOVMode)
     SYSC->CLKENCFG |= SYSC_CLKENCFG_LPWDT_PCKEN;
 
     //setting ps
-    WDT_CR_REG |= ps & 0xF00;
+    WDT_CR_REG |= (ps << 8) & 0xF00;
 
     iDel = iDel >> 2;
 
