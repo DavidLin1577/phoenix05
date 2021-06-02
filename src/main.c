@@ -10,6 +10,7 @@
 #include "lib_include.h"
 #include "test.h"
 #include "demo.h"
+#include <stdio.h>
 
 int main(void)
 {
