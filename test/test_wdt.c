@@ -5,7 +5,7 @@
 
 //wdt
 #define WDT_LOG_ADDR                (TEST_WDT_BASE)
-#define WDT_LOG_EQUALS_ADDR         (WDT_LOG_ADDR              + 0x00 )  //鍦板潃鍙互鏍规嵁瀹為檯闇�瑕侀厤缃�
+#define WDT_LOG_EQUALS_ADDR         (WDT_LOG_ADDR              + 0x00 )  //地址可以根据实际需要配置
 #define WDT_LOG_DIFFERS_ADDR        (WDT_LOG_ADDR              + 0x04 )
 #define WDT_LOG_LESS_THAN_ADDR      (WDT_LOG_ADDR              + 0x08 )
 
@@ -23,7 +23,7 @@ typedef enum wdt_log_offset
 	WDT_CR_REG_POWERDOWN_POS      = 9,
 	WDT_RST_REG_DEINIT_POS        = 10,
 	WDT_CR_REG_DEINIT_POS         = 11,
-	WDT_REG_MAX_POS               = 16    //鍥犱负phoenix05鏈�澶у湴鍧�涓�15浣嶏紝鎵�浠ヤ笉鑳借秴杩�15
+	WDT_REG_MAX_POS               = 16    //因为phoenix05最大地址为15位，所以不能超过15
 }wdt_log_offset_t;
 
 static void wdt_poweron(void)
