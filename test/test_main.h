@@ -2,7 +2,17 @@
 #define _TEST_MAIN_H_
 
 #include "test.h"
-#include "test_wdt.h"
+#include "lib_include.h"
+
+#define TEST_CTL_EN      (1)
+#define TEST_IOM_EN      (1)
+#define TEST_WDT_EN      (1)
+#define TEST_LPT_EN      (1)
+#define TEST_TIM_EN      (0)
+#define TEST_UART_EN     (0)
+#define TEST_EFC_EN      (0)
+#define TEST_SYSC_EN     (1)
+#define TEST_PMU_EN      (1)
 
 typedef enum test_mode
 {
@@ -23,7 +33,7 @@ typedef enum test_device
     MODEL_UART = 5,                           //测试UART模块
     MODEL_EFC = 6,                            //测试EFC模块
     MODEL_SYSC = 7,                           //测试SYSC模块
-    MODEL_PMU = 8,                            //测试PMU模块
+    MODEL_PMU = 8,                            //测试PMU模块                         
 } test_device_t;
 
 typedef enum ctrl_func
@@ -220,4 +230,3 @@ typedef enum pmu_item
 }pmu_item_t;
 
 #endif /*_TEST_MAIN_H_*/
-

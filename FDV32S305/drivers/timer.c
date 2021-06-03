@@ -19,7 +19,7 @@
  * @param timer :timer 1-4
  * @param delay :us
  */
-void Timer_timing_Init(Timer_t timer,int delay)
+void Timer_Timing_Init(Timer_t timer,u16 delay)
 {
     PARAM_CHECK((timer != TIMER1) && (timer != TIMER2) &&
                 (timer != TIMER3)&&(timer != TIMER4));
@@ -83,7 +83,7 @@ void Timer_timing_Init(Timer_t timer,int delay)
  * @param timer :timer 0-4
  * @param count :count
  */
-void Timer_Count_Init(Timer_t timer,int count)
+void Timer_Count_Init(Timer_t timer,u16 count)
 {
     PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
                 (timer != TIMER3)&&(timer != TIMER4));
@@ -162,7 +162,7 @@ void Timer_Count_Init(Timer_t timer,int count)
  * @param portSel :TIMN_PWM_PORT_xxxx;
  * @param dtGap :us
  */
-void Timer_PWMInit(Timer_t timer, int freq, int duty)
+void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
 {
     PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
                 (timer != TIMER3)&&(timer != TIMER4));
@@ -265,7 +265,7 @@ void Timer_DeInit(Timer_t timer)
  * @param timer : timer 0-4
  * @param iCtrl ENABLE or DISABLE
  */
-void Timer_EnableControl(Timer_t timer, int iCtrl)
+void Timer_EnableControl(Timer_t timer, u16 iCtrl)
 {
     PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
                 (timer != TIMER3)&&(timer != TIMER4));

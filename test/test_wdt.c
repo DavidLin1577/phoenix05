@@ -5,7 +5,7 @@
 
 //wdt
 #define WDT_LOG_ADDR                (TEST_WDT_BASE)
-#define WDT_LOG_EQUALS_ADDR         (WDT_LOG_ADDR              + 0x00 )  //地址可以根据实际需要配置
+#define WDT_LOG_EQUALS_ADDR         (WDT_LOG_ADDR              + 0x00 )  //鍦板潃鍙互鏍规嵁瀹為檯闇�瑕侀厤缃�
 #define WDT_LOG_DIFFERS_ADDR        (WDT_LOG_ADDR              + 0x04 )
 #define WDT_LOG_LESS_THAN_ADDR      (WDT_LOG_ADDR              + 0x08 )
 
@@ -23,7 +23,7 @@ typedef enum wdt_log_offset
 	WDT_CR_REG_POWERDOWN_POS      = 9,
 	WDT_RST_REG_DEINIT_POS        = 10,
 	WDT_CR_REG_DEINIT_POS         = 11,
-	WDT_REG_MAX_POS               = 16    //因为phoenix05最大地址为15位，所以不能超过15
+	WDT_REG_MAX_POS               = 16    //鍥犱负phoenix05鏈�澶у湴鍧�涓�15浣嶏紝鎵�浠ヤ笉鑳借秴杩�15
 }wdt_log_offset_t;
 
 static void wdt_poweron(void)
@@ -118,25 +118,15 @@ void TestModelWDT(u8 func, u8 item, u8 para0, u8 para1, u8 para2)
         }
         break;
     case WDT_FUNC_CTL_NO_RUN:
-    	//使用错误顺序
         WDT->RST = 0x96;
         WDT->RST = 0x69;
         break;
     case WDT_FUNC_CTL_RUN:
-    	//使用正确顺序
         WDT->RST = 0x69;
         WDT->RST = 0x96;
         break;
     case WDT_FUNC_GET_STS:
-    	//打印WDTINTFLAG与WDTR
-    	msg[0] = ':';
-    	msg[1] =  ((WDT->CR >> 7) & 0x01) == 1? '1' : '0';
-    	msg[2] =  ((WDT->CR >> 4) & 0x01) == 1? '1' : '0';
-    	msg[3] = '\r';
-	    for(i = 0; i < sizeof(msg);i++)
-	    {
-	        UART_Send(msg[i]);
-	    }
+	    printf("wdt sts %x\r\n", WDT->CR);
         break;
     case WDT_FUNC_FEED:
         #if 0

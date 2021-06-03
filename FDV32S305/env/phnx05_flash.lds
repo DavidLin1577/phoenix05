@@ -135,9 +135,6 @@ SECTIONS
     *(.srodata.cst4)
     *(.srodata.cst2)
     *(.srodata .srodata.*)
-    _shell_command_start = .;
-    KEEP (*(shellCommand))
-    _shell_command_end = .;
   } >ram AT>flash 
 
   . = ALIGN(4);

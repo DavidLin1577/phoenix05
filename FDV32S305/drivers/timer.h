@@ -75,10 +75,10 @@ typedef enum timer
 
 
 // timer function declare
-void Timer_timing_Init(Timer_t timer,int delay);
-void Timer_Count_Init(Timer_t timer,int count);
-void Timer_PWMInit(Timer_t timer, int freq, int duty);
-void Timer_EnableControl(Timer_t timer, int iCtrl);
+void Timer_Timing_Init(Timer_t timer,u16 delay);
+void Timer_Count_Init(Timer_t timer,u16 count);
+void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty);
+void Timer_EnableControl(Timer_t timer, u16 iCtrl);
 void Timer_EnableIRQ(Timer_t timer);
 void Timer_DeInit(Timer_t timer);
 void Timer_DisableIRQ(Timer_t timer);

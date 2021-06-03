@@ -1,9 +1,11 @@
 #include "test_lptimer.h"
+#include "lib_include.h"
 #include "lptimer.h"
 #include "test_main.h"
 #include "sysc.h"
 #include "iom.h"
-#include "stdio.h"
+
+#if TEST_LPT_EN
 
 void LPT_IrqHandler(void)
 {
@@ -14,20 +16,21 @@ void LPT_IrqHandler(void)
     SYSC->CLKENCFG &= ~SYSC_CLKENCFG_IOM_PCKEN;
 }
 
-void TestModelLPT(u8 *pu8Dat)
+void TestModelLPT(u8 func, u8 item, u8 para0, u8 para1, u8 para2)
 {
-    switch (pu8Dat[FUNC])
+	u16 Del;
+
+    switch (func)
     {
     case LPT_FUNC_CFG:
-        switch (pu8Dat[ITEM])
+        switch (item)
         {
         case LPT_CFG_PARM:
-           // u32 Del = ((u32)pu8Dat[PARM + 4] << 24) | ((u32)pu8Dat[PARM + 3] << 16) | ((u32)pu8Dat[PARM + 2] << 8) |
-           //             pu8Dat[PARM+1];
-           // LPT_Init(pu8Dat[PARM], Del, pu8Dat[PARM + 5]);
-           break;
+            Del = (u16)(para2 << 8 | para1);
+            LPT_Init(Del, para0);
+            break;
         case LPT_CFG_IE_CTL:
-            if (pu8Dat[PARA])
+            if (para0)
             {
                 PLIC_SetPriority(LPTIMER_IRQn, 1);
                 PLIC_EnableIRQ(LPTIMER_IRQn);
@@ -59,3 +62,4 @@ void TestModelLPT(u8 *pu8Dat)
         break;
     }
 }
+#endif //TEST_LPT_EN
