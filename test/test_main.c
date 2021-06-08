@@ -7,7 +7,7 @@
 #include "test_lptimer.h"
 #include "test_uart.h"
 
-#define TEST_DEBUG_EN        (1)
+#define TEST_DEBUG_EN        (0)
 
 int test_entry(void)
 {

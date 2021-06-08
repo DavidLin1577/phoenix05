@@ -1,7 +1,7 @@
 #include "lib_include.h"
 #include "demo.h"
 
-#define UART_DEMO_EN          (1)
+#define UART_DEMO_EN          (0)
 #if UART_DEMO_EN
 
 static void delay(int cnt)

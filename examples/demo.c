@@ -1,6 +1,6 @@
 #include "demo.h"
 
-#define DEMO_EN              (0)
+#define DEMO_EN              (1)
 
 void demo_entry(void)
 {
@@ -10,7 +10,6 @@ void demo_entry(void)
     lptimer_demo();
     timer_demo();
     uart_demo();
-    EFC_Init();
 
 #endif
 }

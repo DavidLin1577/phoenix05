@@ -153,67 +153,57 @@ void Timer_Count_Init(Timer_t timer,u16 count)
 /**
  * @brief pwm init
  *
- * @param timer :timer 0-4
- * @param pwmPolarity :TIM_PMW_POL_xxxx;
+ * @param timer :timer 1-4
  * @param freq : Hz
  * @param duty :exp:duty=50 (50%)
- * @param portSel :TIMN_PWM_PORT_xxxx;
- * @param dtGap :us
  */
 void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
 {
-    PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
-
     SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER_PCKEN;
 
     switch(timer)
     {
-    case TIMER0:
-    	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER0_PCKEN;
-
-    	break;
     case TIMER1:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER1_PCKEN;
-    	TIM1->TCR |= TIMER_TCR_PWMON;
-    	TIM1->TCR &= ~TIMER_TCR_TGC;
-    	TIM1->TCR |= TIMER_TCR_TCS;
-    	TIM1->TCR |= 0x01 << 2;
-    	TIM1->PWMPD= freq;
-    	TIM1->PWMDC= duty;
+    	TIM1->TCR   |= TIMER_TCR_PWMON;
+    	TIM1->TCR   &= ~TIMER_TCR_TGC;
+    	TIM1->TCR   |= TIMER_TCR_TCS;
+    	TIM1->TCR   |= 0x01 << 2;
+    	TIM1->PWMPD  = freq;
+    	TIM1->PWMDC  = duty;
     	TIMERS->TIE |= TIMER1_TIE;
     	TIMERS->TIF |= TIMER1_TIF;
     	break;
     case TIMER2:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER2_PCKEN;
-    	TIM2->TCR |= TIMER_TCR_PWMON;
-    	TIM2->TCR &= ~TIMER_TCR_TGC;
-    	TIM2->TCR |= TIMER_TCR_TCS;
-    	TIM2->TCR |= 0x01 << 2;
-    	TIM2->PWMPD= freq;
-    	TIM2->PWMDC= duty;
+    	TIM2->TCR   |= TIMER_TCR_PWMON;
+    	TIM2->TCR   &= ~TIMER_TCR_TGC;
+    	TIM2->TCR   |= TIMER_TCR_TCS;
+    	TIM2->TCR   |= 0x01 << 2;
+    	TIM2->PWMPD  = freq;
+    	TIM2->PWMDC  = duty;
     	TIMERS->TIE |= TIMER2_TIE;
     	TIMERS->TIF |= TIMER2_TIF;
     	break;
     case TIMER3:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER3_PCKEN;
-    	TIM3->TCR |= TIMER_TCR_PWMON;
-    	TIM3->TCR &= ~TIMER_TCR_TGC;
-    	TIM3->TCR |= TIMER_TCR_TCS;
-    	TIM3->TCR |= 0x01 << 2;
-    	TIM3->PWMPD= freq;
-    	TIM3->PWMDC= duty;
+    	TIM3->TCR  |= TIMER_TCR_PWMON;
+    	TIM3->TCR  &= ~TIMER_TCR_TGC;
+    	TIM3->TCR  |= TIMER_TCR_TCS;
+    	TIM3->TCR  |= 0x01 << 2;
+    	TIM3->PWMPD = freq;
+    	TIM3->PWMDC = duty;
     	TIMERS->TIE |= TIMER3_TIE;
     	TIMERS->TIF |= TIMER3_TIF;
     	break;
     case TIMER4:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER4_PCKEN;
-    	TIM4->TCR |= TIMER_TCR_PWMON;
-    	TIM4->TCR &= ~TIMER_TCR_TGC;
-    	TIM4->TCR |= TIMER_TCR_TCS;
-    	TIM4->TCR |= 0x01 << 2;
-    	TIM4->PWMPD= freq;
-    	TIM4->PWMDC= duty;
+    	TIM4->TCR   |= TIMER_TCR_PWMON;
+    	TIM4->TCR   &= ~TIMER_TCR_TGC;
+    	TIM4->TCR   |= TIMER_TCR_TCS;
+    	TIM4->TCR   |= 0x01 << 2;
+    	TIM4->PWMPD  = freq;
+    	TIM4->PWMDC  = duty;
     	TIMERS->TIE |= TIMER4_TIE;
     	TIMERS->TIF |= TIMER4_TIF;
     	break;

@@ -9,14 +9,14 @@
 
 void timer_timing_demo(void)
 {
-	int timer = TIMER4;
+	int timer = TIMER1;
 
 	switch(timer)
 	{
 	case TIMER0:
 		break;
 	case TIMER1:
-		Timer_Timing_Init(TIMER1, 10000);
+		Timer_Timing_Init(TIMER1, 400);
         PLIC_EnableIRQ(TIMER1_IRQn);
         PLIC_SetPriority(TIMER1_IRQn, 1);
         Timer_EnableIRQ(TIMER1);
@@ -59,7 +59,7 @@ void timer_timing_demo(void)
 void timer_count_demo(void)
 {
 
-	int timer = TIMER4;
+	int timer = TIMER1;
 
 	switch(timer)
 	{
@@ -141,11 +141,13 @@ void TIMER1_IrqHandler(void)
     {
         tog = 0;
         LED_OFF(LED_RED);
+        printf("led_off\r");
     }
     else
     {
         tog = 1;
         LED_ON(LED_RED);
+        printf("led_on\r");
     }
 
     Timer_ClrIntFlag(TIMER1);
