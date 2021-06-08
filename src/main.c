@@ -20,9 +20,6 @@ int main(void)
 	GPIO_SetPin(LED_RED);
 	LED_ON(LED_RED);
 
-	GPIO_PinSelect(UART1_RX | UART1_TX, PIN_FUNC_1);
-	UART_Init(UART_MODE_10B_ASYNC, 9600);
-
 	printf("hello risc-v\r\n");
 
 	while(1)

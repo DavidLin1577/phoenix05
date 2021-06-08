@@ -81,6 +81,15 @@ typedef struct {
     __IO unsigned int RSTSTS;
 } SYSC_Type;
 
+/**
+ * @brief ADC
+ */
+
+typedef struct {
+    __IO unsigned int CFG;
+    __IO unsigned int INTF;
+    __IO unsigned int DATA;
+} ADC_Type;
 
 /**
  * @brief TIMERS
@@ -126,6 +135,31 @@ typedef struct {
     __IO unsigned int ISR;
     __IO unsigned int BDIV;
 } UART_Type;
+
+typedef struct {
+    __IO unsigned int ANAC_CFG;     // 00
+    __IO unsigned int CMP_CFG;      // 04
+    __IO unsigned int LVD_CFG;      // 08
+    __IO unsigned int AINSEL;       // 0c
+    __IO unsigned int CLK_TRIM;     // 10
+    __IO unsigned int FLAG;         // 14
+    __O  unsigned int WPROT;        // 18
+    __I  unsigned int RSV0[9];      // 1c-3c
+    __IO unsigned int HRC_TRIM;     // 40
+    __IO unsigned int LRC_TRIM;     // 44
+    __IO unsigned int BG4S_TRIM;    // 48
+    __IO unsigned int CMP_TRIM;     // 4c
+    __IO unsigned int HRC_IBTRIM;   // 50
+    __IO unsigned int NVR_OPTION0;  // 54
+    __IO unsigned int ANAC_REV0;    // 58
+    __IO unsigned int ANAC_TESTCTL; // 5c
+    __IO unsigned int ANAC_TEST;    // 60
+    __I  unsigned int RSV1[7];
+    __IO unsigned int NVR_OPTION1;  // 80
+    __I  unsigned int RSV2;         // 84
+    __IO unsigned int EST_CFG;      // 88
+    __IO unsigned int EST_RAM_BIST; // 88
+} ANAC_Type;
 
 
 typedef struct {
@@ -223,6 +257,7 @@ typedef enum
 #define TIM3_BASE       0x0000D030UL
 #define TIM4_BASE       0x0000D040UL
 #define UART1_BASE      0x0000D400UL
+#define ADC_BASE        0x0000D800UL
 #define ANAC_BASE       0x0000CC00UL
 #define IOM_BASE        0x0000C800UL
 #define LPTIM_BASE      0x0000F800UL
@@ -237,6 +272,7 @@ typedef enum
 #define TIM3            ((TIM_Type *)TIM3_BASE)
 #define TIM4            ((TIM_Type *)TIM4_BASE)
 #define UART1           ((UART_Type *)UART1_BASE)
+#define ADC             ((ADC_Type *)ADC_BASE)
 #define ANAC            ((ANAC_Type *)ANAC_BASE)
 #define IOM             ((IOM_Type *)IOM_BASE)
 #define LPTIM           ((LPTIM_Type *)LPTIM_BASE)

@@ -12,6 +12,7 @@
 #include "sysc.h"
 #include "efc.h"
 #include "uart.h"
+#include "iom.h"
 
 unsigned int SystemCoreClock = 8000000;
 
@@ -52,10 +53,8 @@ void SystemInit(void) {
 #endif
     SystemCoreClockUpdate();
 #ifdef _DEBUG
-
-#else
-    //UART_DeInit(UART1);
-    //UART_Init(UART1, UART1_PORT_P00_P01, UART_MODE_10B_ASYNC, _BAUD_FREQ);
+	GPIO_PinSelect(GPIO_PIN0 | GPIO_PIN1, PIN_FUNC_1);
+	UART_Init(UART_MODE_10B_ASYNC, 9600);
 #endif
     WRITE_CSR(mtvec, &trap_entry);
     EnableGlobleIRQ();

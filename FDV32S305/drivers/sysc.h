@@ -146,8 +146,8 @@ typedef enum _CLK_EN
 void SYSC_SelectClockSource(int clkSrc);
 void SYSC_SetAPBCLKDiv(int div);
 void SYSC_SetAHBCLKDiv(int div);
-int SYSC_APBCLK_Get(void);
-int SYSC_AHBCLK_Get(void);
+int  SYSC_APBCLK_Get(void);
+int  SYSC_AHBCLK_Get(void);
 void SYSC_ResetPeripher(eRSTP_Type module);
 void SYSC_PCLKEnable(ePCLKEN_Type perp);
 void SYSC_PCLKDisable(ePCLKEN_Type perp);
