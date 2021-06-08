@@ -167,7 +167,7 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER1_PCKEN;
     	TIM1->TCR   |= TIMER_TCR_PWMON;
     	TIM1->TCR   &= ~TIMER_TCR_TGC;
-    	TIM1->TCR   |= TIMER_TCR_TCS;
+    	TIM1->TCR   &= ~TIMER_TCR_TCS;
     	TIM1->TCR   |= 0x01 << 2;
     	TIM1->PWMPD  = freq;
     	TIM1->PWMDC  = duty;
@@ -178,7 +178,7 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER2_PCKEN;
     	TIM2->TCR   |= TIMER_TCR_PWMON;
     	TIM2->TCR   &= ~TIMER_TCR_TGC;
-    	TIM2->TCR   |= TIMER_TCR_TCS;
+    	TIM2->TCR   &= ~TIMER_TCR_TCS;
     	TIM2->TCR   |= 0x01 << 2;
     	TIM2->PWMPD  = freq;
     	TIM2->PWMDC  = duty;
@@ -189,7 +189,7 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER3_PCKEN;
     	TIM3->TCR  |= TIMER_TCR_PWMON;
     	TIM3->TCR  &= ~TIMER_TCR_TGC;
-    	TIM3->TCR  |= TIMER_TCR_TCS;
+    	TIM3->TCR  &= ~TIMER_TCR_TCS;
     	TIM3->TCR  |= 0x01 << 2;
     	TIM3->PWMPD = freq;
     	TIM3->PWMDC = duty;
@@ -200,7 +200,7 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER4_PCKEN;
     	TIM4->TCR   |= TIMER_TCR_PWMON;
     	TIM4->TCR   &= ~TIMER_TCR_TGC;
-    	TIM4->TCR   |= TIMER_TCR_TCS;
+    	TIM4->TCR   &= ~TIMER_TCR_TCS;
     	TIM4->TCR   |= 0x01 << 2;
     	TIM4->PWMPD  = freq;
     	TIM4->PWMDC  = duty;

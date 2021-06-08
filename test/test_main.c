@@ -5,9 +5,10 @@
 #include "test_iom.h"
 #include "test_efc.h"
 #include "test_lptimer.h"
+#include "test_timer.h"
 #include "test_uart.h"
 
-#define TEST_DEBUG_EN        (0)
+#define TEST_DEBUG_EN        (1)
 
 int test_entry(void)
 {
@@ -26,6 +27,7 @@ int test_entry(void)
 		 if(recv_header == 0xcc)
 		 {
 			 LED_OFF(LED_RED);
+			 printf("enter test mode: \r\n");
 			 model = UART_Receive();
 
 			 switch(model)
@@ -84,14 +86,8 @@ int test_entry(void)
 				 break;
 			 case MODEL_TIMER:
                  #if TEST_TIM_EN
-				 func     = UART_Receive();
-				 item     = UART_Receive();
-				 para[0]  = UART_Receive();
-				 para[1]  = UART_Receive();
-				 para[2]  = UART_Receive();
-				 para[3]  = UART_Receive();
-				 para[4]  = UART_Receive();
-				 TestModelTimer(func, item, para[0], para[1], para[2], para[3], para[4]);
+				 printf("MODEL_TIMER\r\n");
+				 TestModelTimer();
                  #endif
 				 break;
 			 case MODEL_UART:

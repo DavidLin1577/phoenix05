@@ -4,15 +4,15 @@
 #include "test.h"
 #include "lib_include.h"
 
-#define TEST_CTL_EN      (1)
-#define TEST_IOM_EN      (1)
-#define TEST_WDT_EN      (1)
-#define TEST_LPT_EN      (1)
-#define TEST_TIM_EN      (0)
+#define TEST_CTL_EN      (0)
+#define TEST_IOM_EN      (0)
+#define TEST_WDT_EN      (0)
+#define TEST_LPT_EN      (0)
+#define TEST_TIM_EN      (1)
 #define TEST_UART_EN     (0)
 #define TEST_EFC_EN      (0)
-#define TEST_SYSC_EN     (1)
-#define TEST_PMU_EN      (1)
+#define TEST_SYSC_EN     (0)
+#define TEST_PMU_EN      (0)
 
 typedef enum test_mode
 {
@@ -148,6 +148,9 @@ typedef enum timer_func
     TIMER_FUNC_RESTORE_TIM3 = 18,            //恢复TIM3
     TIMER_FUNC_PAUSE_TIM4 = 19,              //暂停TIM4
     TIMER_FUNC_RESTORE_TIM4 = 20,            //恢复TIM4
+	TIMER_FUNC_TIMING = 21,
+	TIMER_FUNC_COUNT = 22,
+	TIMER_FUNC_PWM = 23,                     //测试完整流程的PWM,0x17
 }timer_func_t;
 
 
