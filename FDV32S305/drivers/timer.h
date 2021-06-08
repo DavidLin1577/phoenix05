@@ -57,12 +57,12 @@ typedef enum timer
 #define TIMER0_T0RLD_T0RLD                      BITS(0, 7)
 
 //reg TCR for timer1-timer4
-#define Timer_tCR_PWMON                         BIT(7)
-#define Timer_tCR_INTSE                         BIT(6)
-#define Timer_tCR_TGC                           BIT(4)
-#define Timer_tCR_TCKS                          BITS(2, 3)
-#define Timer_tCR_TCS                           BIT(1)
-#define Timer_tCR_TON                           BIT(0)
+#define TIMER_TCR_PWMON                         BIT(7)
+#define TIMER_TCR_INTSE                         BIT(6)
+#define TIMER_TCR_TGC                           BIT(4)
+#define TIMER_TCR_TCKS                          BITS(2, 3)
+#define TIMER_TCR_TCS                           BIT(1)
+#define TIMER_TCR_TON                           BIT(0)
 
 //reg TN for timer1-timer4
 #define Timer_tN_PWMON                          BITS(0, 15)

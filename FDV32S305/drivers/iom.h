@@ -159,8 +159,7 @@
 #define GPIO_PIN13                  (1 << 13)
 #define GPIO_PIN14                  (1 << 14)
 #define GPIO_PIN15                  (1 << 15)
-#define GPIO_PIN16                  (1 << 16)
-#define GPIO_ALL                    (0xfffff)
+#define GPIO_ALL                    (0xff)
 
 // extern define
 #define PIN_FUNC_0                  (0)

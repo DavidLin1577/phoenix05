@@ -55,6 +55,7 @@ void WDT_Init(int ps, int iDel, eOVModeType iOVMode)
     }
     PARAM_CHECK((iTmp > 16) || (iTmp == 0));
     WDT_CR_REG = iTmp - 1;
+
     if (iOVMode == WDT_OV_INT) {
         WDT_CR_REG |= WDT_CR_WINTEN;
     } else {

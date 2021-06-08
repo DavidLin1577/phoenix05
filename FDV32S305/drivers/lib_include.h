@@ -20,6 +20,8 @@
 #include "../../FDV32S305/drivers/timer.h"
 #include "../../FDV32S305/drivers/uart.h"
 #include "../../FDV32S305/drivers/wdt.h"
+#include "../../FDV32S305/drivers/anac.h"
+#include "../../FDV32S305/drivers/adc.h"
 
 #ifdef _DEBUG
 extern int __wrap_printf(const char *fmt, ...);

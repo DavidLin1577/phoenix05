@@ -16,58 +16,65 @@
 /**
  * @brief  timer timing init
  *
- * @param timer :timer 1-4
+ * @param timer :timer 0-4
  * @param delay :us
  */
 void Timer_Timing_Init(Timer_t timer,u16 delay)
 {
-    PARAM_CHECK((timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
-
     SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER_PCKEN;
 
     switch(timer)
     {
+    case TIMER0:
+    	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER0_PCKEN;
+    	TIMERS->T0CR |= TIMER0_T0CR_T0EN;
+    	TIMERS->T0CR &=~TIMER0_T0CR_PSA;
+    	TIMERS->T0CR |= 0x001;
+    	TIMERS->T0    = delay & 0xFF;
+    	TIMERS->TIE  |= TIMER0_TIE;
+    	TIMERS->TIF  |= TIMER0_TIF;
+    	break;
+    	break;
     case TIMER1:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER1_PCKEN;
-    	TIM1->TCR &= ~Timer_tCR_PWMON;
-    	TIM1->TCR &= ~Timer_tCR_TGC;
-    	TIM1->TCR &= ~Timer_tCR_TCS;
+    	TIM1->TCR &= ~TIMER_TCR_PWMON;
+    	TIM1->TCR &= ~TIMER_TCR_TGC;
+    	TIM1->TCR &= ~TIMER_TCR_TCS;
     	TIM1->TCR |= 0x01 << 2;
-    	TIM1->TCR |= Timer_tCR_TON;
+    	TIM1->TCR |= TIMER_TCR_TON;
     	TIM1->TN   = delay;
     	TIMERS->TIE |= TIMER1_TIE;
     	TIMERS->TIF |= TIMER1_TIF;
     	break;
     case TIMER2:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER2_PCKEN;
-    	TIM2->TCR &= ~Timer_tCR_PWMON;
-    	TIM2->TCR &= ~Timer_tCR_TGC;
-    	TIM2->TCR &= ~Timer_tCR_TCS;
+    	TIM2->TCR &= ~TIMER_TCR_PWMON;
+    	TIM2->TCR &= ~TIMER_TCR_TGC;
+    	TIM2->TCR &= ~TIMER_TCR_TCS;
     	TIM2->TCR |= 0x01 << 2;
-    	TIM2->TCR |= Timer_tCR_TON;
+    	TIM2->TCR |= TIMER_TCR_TON;
     	TIM2->TN   = delay;
     	TIMERS->TIE |= TIMER2_TIE;
     	TIMERS->TIF |= TIMER2_TIF;
     	break;
     case TIMER3:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER3_PCKEN;
-    	TIM3->TCR &= ~Timer_tCR_PWMON;
-    	TIM3->TCR &= ~Timer_tCR_TGC;
-    	TIM3->TCR &= ~Timer_tCR_TCS;
+    	TIM3->TCR &= ~TIMER_TCR_PWMON;
+    	TIM3->TCR &= ~TIMER_TCR_TGC;
+    	TIM3->TCR &= ~TIMER_TCR_TCS;
     	TIM3->TCR |= 0x01 << 2;
-    	TIM3->TCR |= Timer_tCR_TON;
+    	TIM3->TCR |= TIMER_TCR_TON;
     	TIM3->TN   = delay;
     	TIMERS->TIE |= TIMER3_TIE;
     	TIMERS->TIF |= TIMER3_TIF;
     	break;
     case TIMER4:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER4_PCKEN;
-    	TIM4->TCR &= ~Timer_tCR_PWMON;
-    	TIM4->TCR &= ~Timer_tCR_TGC;
-    	TIM4->TCR &= ~Timer_tCR_TCS;
+    	TIM4->TCR &= ~TIMER_TCR_PWMON;
+    	TIM4->TCR &= ~TIMER_TCR_TGC;
+    	TIM4->TCR &= ~TIMER_TCR_TCS;
     	TIM4->TCR |= 0x11 << 2;
-    	TIM4->TCR |= Timer_tCR_TON;
+    	TIM4->TCR |= TIMER_TCR_TON;
     	TIM4->TN   = delay;
     	TIMERS->TIE |= TIMER4_TIE;
     	TIMERS->TIF |= TIMER4_TIF;
@@ -85,64 +92,55 @@ void Timer_Timing_Init(Timer_t timer,u16 delay)
  */
 void Timer_Count_Init(Timer_t timer,u16 count)
 {
-    PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
-
     SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER_PCKEN;
 
     switch(timer)
     {
     case TIMER0:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER0_PCKEN;
-    	TIMERS->T0CR |= TIMER0_T0CR_T0EN;
     	TIMERS->T0CR |= TIMER0_T0CR_T0RLDEN;
     	TIMERS->T0CR &=~TIMER0_T0CR_PSA;
     	TIMERS->T0CR |= 0x001;
     	TIMERS->T0RLD = count;
-    	TIMERS->TIE |= TIMER1_TIE;
-    	TIMERS->TIF |= TIMER1_TIF;
+    	TIMERS->TIE |= TIMER0_TIE;
+    	TIMERS->TIF |= TIMER0_TIF;
     	break;
     case TIMER1:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER1_PCKEN;
-    	TIM1->TCR &= ~Timer_tCR_PWMON;
-    	TIM1->TCR &= ~Timer_tCR_TGC;
-    	TIM1->TCR |= Timer_tCR_TCS;
+    	TIM1->TCR &= ~TIMER_TCR_PWMON;
+    	TIM1->TCR &= ~TIMER_TCR_TGC;
+    	TIM1->TCR |= TIMER_TCR_TCS;
     	TIM1->TCR |= 0x01 << 2;
-    	TIM1->TCR |= Timer_tCR_TON;
     	TIM1->TN   = count;
     	TIMERS->TIE |= TIMER1_TIE;
     	TIMERS->TIF |= TIMER1_TIF;
     	break;
     case TIMER2:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER2_PCKEN;
-    	TIM2->TCR &= ~Timer_tCR_PWMON;
-    	TIM2->TCR &= ~Timer_tCR_TGC;
-    	TIM2->TCR |= Timer_tCR_TCS;
+    	TIM2->TCR &= ~TIMER_TCR_PWMON;
+    	TIM2->TCR &= ~TIMER_TCR_TGC;
+    	TIM2->TCR |= TIMER_TCR_TCS;
     	TIM2->TCR |= 0x01 << 2;
-    	TIM2->TCR |= Timer_tCR_TON;
     	TIM2->TN   = count;
     	TIMERS->TIE |= TIMER2_TIE;
     	TIMERS->TIF |= TIMER2_TIF;
     	break;
     case TIMER3:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER3_PCKEN;
-    	TIM3->TCR &= ~Timer_tCR_PWMON;
-    	TIM3->TCR &= ~Timer_tCR_TGC;
-    	TIM3->TCR |= Timer_tCR_TCS;
+    	TIM3->TCR &= ~TIMER_TCR_PWMON;
+    	TIM3->TCR &= ~TIMER_TCR_TGC;
+    	TIM3->TCR |= TIMER_TCR_TCS;
     	TIM3->TCR |= 0x01 << 2;
-    	TIM3->TCR |= Timer_tCR_TON;
     	TIM3->TN   = count;
     	TIMERS->TIE |= TIMER3_TIE;
     	TIMERS->TIF |= TIMER3_TIF;
     	break;
     case TIMER4:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER4_PCKEN;
-    	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER4_PCKEN;
-    	TIM4->TCR &= ~Timer_tCR_PWMON;
-    	TIM4->TCR &= ~Timer_tCR_TGC;
-    	TIM4->TCR |= Timer_tCR_TCS;
+    	TIM4->TCR &= ~TIMER_TCR_PWMON;
+    	TIM4->TCR &= ~TIMER_TCR_TGC;
+    	TIM4->TCR |= TIMER_TCR_TCS;
     	TIM4->TCR |= 0x01 << 2;
-    	TIM4->TCR |= Timer_tCR_TON;
     	TIM4->TN   = count;
     	TIMERS->TIE |= TIMER4_TIE;
     	TIMERS->TIF |= TIMER4_TIF;
@@ -172,16 +170,15 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     switch(timer)
     {
     case TIMER0:
+    	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER0_PCKEN;
 
     	break;
     case TIMER1:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER1_PCKEN;
-    	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER0_PCKEN;
-    	TIM1->TCR |= Timer_tCR_PWMON;
-    	TIM1->TCR &= ~Timer_tCR_TGC;
-    	TIM1->TCR |= Timer_tCR_TCS;
+    	TIM1->TCR |= TIMER_TCR_PWMON;
+    	TIM1->TCR &= ~TIMER_TCR_TGC;
+    	TIM1->TCR |= TIMER_TCR_TCS;
     	TIM1->TCR |= 0x01 << 2;
-    	TIM1->TCR |= Timer_tCR_TON;
     	TIM1->PWMPD= freq;
     	TIM1->PWMDC= duty;
     	TIMERS->TIE |= TIMER1_TIE;
@@ -189,11 +186,10 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	break;
     case TIMER2:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER2_PCKEN;
-    	TIM2->TCR |= Timer_tCR_PWMON;
-    	TIM2->TCR &= ~Timer_tCR_TGC;
-    	TIM2->TCR |= Timer_tCR_TCS;
+    	TIM2->TCR |= TIMER_TCR_PWMON;
+    	TIM2->TCR &= ~TIMER_TCR_TGC;
+    	TIM2->TCR |= TIMER_TCR_TCS;
     	TIM2->TCR |= 0x01 << 2;
-    	TIM2->TCR |= Timer_tCR_TON;
     	TIM2->PWMPD= freq;
     	TIM2->PWMDC= duty;
     	TIMERS->TIE |= TIMER2_TIE;
@@ -201,11 +197,10 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	break;
     case TIMER3:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER3_PCKEN;
-    	TIM3->TCR |= Timer_tCR_PWMON;
-    	TIM3->TCR &= ~Timer_tCR_TGC;
-    	TIM3->TCR |= Timer_tCR_TCS;
+    	TIM3->TCR |= TIMER_TCR_PWMON;
+    	TIM3->TCR &= ~TIMER_TCR_TGC;
+    	TIM3->TCR |= TIMER_TCR_TCS;
     	TIM3->TCR |= 0x01 << 2;
-    	TIM3->TCR |= Timer_tCR_TON;
     	TIM3->PWMPD= freq;
     	TIM3->PWMDC= duty;
     	TIMERS->TIE |= TIMER3_TIE;
@@ -213,12 +208,10 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	break;
     case TIMER4:
     	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER4_PCKEN;
-    	SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER4_PCKEN;
-    	TIM4->TCR |= Timer_tCR_PWMON;
-    	TIM4->TCR &= ~Timer_tCR_TGC;
-    	TIM4->TCR |= Timer_tCR_TCS;
+    	TIM4->TCR |= TIMER_TCR_PWMON;
+    	TIM4->TCR &= ~TIMER_TCR_TGC;
+    	TIM4->TCR |= TIMER_TCR_TCS;
     	TIM4->TCR |= 0x01 << 2;
-    	TIM4->TCR |= Timer_tCR_TON;
     	TIM4->PWMPD= freq;
     	TIM4->PWMDC= duty;
     	TIMERS->TIE |= TIMER4_TIE;
@@ -235,25 +228,22 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
  */
 void Timer_DeInit(Timer_t timer)
 {
-    PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
-
     switch(timer)
     {
     case TIMER0:
-    	//TODO
+    	SYSC->CLKENCFG &= ~SYSC_CLKENCFG_TIMER0_PCKEN;
     	break;
     case TIMER1:
-    	//TODO
+    	SYSC->CLKENCFG &= ~SYSC_CLKENCFG_TIMER1_PCKEN;
     	break;
     case TIMER2:
-    	//TODO
+    	SYSC->CLKENCFG &= ~SYSC_CLKENCFG_TIMER2_PCKEN;
     	break;
     case TIMER3:
-    	//TODO
+    	SYSC->CLKENCFG &= ~SYSC_CLKENCFG_TIMER3_PCKEN;
     	break;
     case TIMER4:
-    	//TODO
+    	SYSC->CLKENCFG &= ~SYSC_CLKENCFG_TIMER4_PCKEN;
     	break;
     default:
     	break;
@@ -267,8 +257,6 @@ void Timer_DeInit(Timer_t timer)
  */
 void Timer_EnableControl(Timer_t timer, u16 iCtrl)
 {
-    PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
     switch(timer)
     {
     case TIMER0:
@@ -333,8 +321,6 @@ void Timer_EnableControl(Timer_t timer, u16 iCtrl)
  */
 void Timer_EnableIRQ(Timer_t timer)
 {
-    PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
     switch(timer)
     {
     case TIMER0:
@@ -364,8 +350,6 @@ void Timer_EnableIRQ(Timer_t timer)
  */
 void Timer_DisableIRQ(Timer_t timer)
 {
-    PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
     switch(timer)
     {
     case TIMER0:
@@ -397,9 +381,6 @@ void Timer_DisableIRQ(Timer_t timer)
  */
 FlagStatus Timer_GetIntFlag(Timer_t timer)
 {
-    PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
-
     int ret = RESET;
 
     if(TIMER0 == timer)
@@ -432,9 +413,6 @@ FlagStatus Timer_GetIntFlag(Timer_t timer)
  */
 void Timer_ClrIntFlag(Timer_t timer)
 {
-    PARAM_CHECK((timer != TIMER0) && (timer != TIMER1) && (timer != TIMER2) &&
-                (timer != TIMER3)&&(timer != TIMER4));
-
     switch(timer)
     {
     case TIMER0:

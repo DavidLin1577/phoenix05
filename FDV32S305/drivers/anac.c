@@ -13,11 +13,12 @@
 #include "sysc.h"
 
 /**
- * @brief ANAC init
+ * @brief anac init
  *
  * @param freq :anac module freq (kHz)
  */
-void ANAC_Init(int freq) {
+void ANAC_Init(int freq)
+{
     SYSC->CLKENCFG |= SYSC_CLKENCFG_ANAC_PCKEN;
     SystemCoreClockUpdate();
     int tmp = SystemCoreClock / 1000 / freq;
@@ -31,7 +32,8 @@ void ANAC_Init(int freq) {
  * @brief anac deinit
  *
  */
-void ANAC_DeInit(void) {
+void ANAC_DeInit(void)
+{
     int i;
     SYSC_WPT_UNLOCK();
     SYSC->MSFTRSTCFG |= SYSC_MSFTRSTCFG_ANAC_SFT_RST;
