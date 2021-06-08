@@ -94,6 +94,7 @@ void TestModelTimer(void)
 	u16 Dat;
 	u16 freq;
 	u16 duty;
+	u16 i;
 
 	printf("enter timer func: \r\n");
 	func = UART_Receive();
@@ -359,6 +360,54 @@ void TestModelTimer(void)
             printf("pwm 4 enable\r\n");
     		break;
     	}
+        break;
+    case TIMER_FUNC_PWM_BREATHE:
+        printf("choose pwm: 1-4\r\n");
+        item = UART_Receive();
+
+        switch (item)
+        {
+        case TIMER1:
+            GPIO_PinSelect(GPIO_PIN14, PIN_FUNC_3);
+            for (i = 0; i < 0xFFFF; i++)
+            {
+                Timer_PWMInit(TIMER1, 400, i);
+                PLIC_EnableIRQ(TIMER1_IRQn);
+                PLIC_SetPriority(TIMER1_IRQn, 1);
+                Timer_EnableIRQ(TIMER1);
+                Timer_EnableControl(TIMER1, ENABLE);
+                Timer_ClrIntFlag(TIMER1);
+            }
+            printf("pwm 1 breathe\r\n");
+            break;
+        case TIMER2:
+            Timer_PWMInit(TIMER2, 400, 0xFF);
+            PLIC_EnableIRQ(TIMER2_IRQn);
+            PLIC_SetPriority(TIMER2_IRQn, 1);
+            Timer_EnableIRQ(TIMER2);
+            Timer_EnableControl(TIMER2, ENABLE);
+            Timer_ClrIntFlag(TIMER2);
+            printf("pwm 2 enable\r\n");
+            break;
+        case TIMER3:
+            Timer_PWMInit(TIMER3, 400, 0xFF);
+            PLIC_EnableIRQ(TIMER3_IRQn);
+            PLIC_SetPriority(TIMER3_IRQn, 1);
+            Timer_EnableIRQ(TIMER3);
+            Timer_EnableControl(TIMER3, ENABLE);
+            Timer_ClrIntFlag(TIMER3);
+            printf("pwm 3 enable\r\n");
+            break;
+        case TIMER4:
+            Timer_PWMInit(TIMER4, 400, 0xFF);
+            PLIC_EnableIRQ(TIMER4_IRQn);
+            PLIC_SetPriority(TIMER4_IRQn, 1);
+            Timer_EnableIRQ(TIMER4);
+            Timer_EnableControl(TIMER4, ENABLE);
+            Timer_ClrIntFlag(TIMER4);
+            printf("pwm 4 enable\r\n");
+            break;
+        }
         break;
     default:
         break;

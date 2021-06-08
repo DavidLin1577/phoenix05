@@ -151,6 +151,7 @@ typedef enum timer_func
 	TIMER_FUNC_TIMING = 21,
 	TIMER_FUNC_COUNT = 22,
 	TIMER_FUNC_PWM = 23,                     //测试完整流程的PWM,0x17
+	TIMER_FUNC_PWM_BREATHE = 24,             //测试呼吸灯流程的PWM,0x18
 }timer_func_t;
 
 
