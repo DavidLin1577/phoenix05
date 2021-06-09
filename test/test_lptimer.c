@@ -7,30 +7,73 @@
 
 #if TEST_LPT_EN
 
-void LPT_IrqHandler(void)
+void LPTIMER_IrqHandler(void)
 {
+    static int tog;
+
+    if (tog)
+    {
+    	tog = 0;
+        GPIO_ClrPin(GPIO_PIN14);
+    }
+    else
+    {
+    	tog = 1;
+        GPIO_SetPin(GPIO_PIN14);
+    }
     LPT_ClrIntFlag();
-    SYSC->CLKENCFG |= SYSC_CLKENCFG_IOM_PCKEN;
-    IOM->OE |= GPIO_PIN14;
-    IOM->DATA = IOM->DATA & GPIO_PIN14 ? IOM->DATA & ~GPIO_PIN14 : IOM->DATA | GPIO_PIN14;
-    SYSC->CLKENCFG &= ~SYSC_CLKENCFG_IOM_PCKEN;
 }
 
-void TestModelLPT(u8 func, u8 item, u8 para0, u8 para1, u8 para2)
+void test_mode_lptimer(void)
 {
-	u16 Del;
+	u16 iDel;
+	u16 iPS;
+	u16 func;
+	u16 item;
+	u8 para[10] = {0};
+
+    printf("choose func: 1 - 10\r\n");
+	printf("LPT_FUNC_CFG          (0)\r");
+	printf("LPT_FUNC_CTL_EN       (1)\r");
+	printf("LPT_FUNC_CTL_DIS      (2)\r");
+	printf("LPT_FUNC_GET_CNT      (3)\r");
+	printf("LPT_FUNC_GET_STS      (4)\r");
+	printf("LPT_FUNC_PIT_CNT      (5)\r");
+	func     = UART_Receive();
 
     switch (func)
     {
     case LPT_FUNC_CFG:
+    	printf("choose item:\r\n");
+    	printf("LPT_CFG_PARM     (0)\r");
+    	printf("LPT_CFG_IE_CTL   (1)\r");
+        item     = UART_Receive();
         switch (item)
         {
         case LPT_CFG_PARM:
-            Del = (u16)(para2 << 8 | para1);
-            LPT_Init(Del, para0);
+        	printf("iDel: 0x0000 - 0xffff\r");
+        	printf("high byte: 0x00 - 0xff\r");
+        	para[0]  = UART_Receive();
+        	printf("low  byte: 0x00 - 0xff\r");
+        	para[1]  = UART_Receive();
+        	iDel = ((u16)(para[0] << 8) | para[1]);
+        	printf("iDel = %x\r\n", iDel);
+        	printf("mode: 0 - LPT_SIG_TIME_CNT;  1 - LPT_PIT_CNT\r");
+        	para[2]  = UART_Receive();
+        	printf("iPS: 0x0000 - 0xffff\r");
+        	printf("high byte: 0x00 - 0xff\r");
+        	para[3]  = UART_Receive();
+        	printf("low  byte: 0x00 - 0xff\r");
+        	para[4]  = UART_Receive();
+        	iPS = ((u16)(para[3] << 8) | para[4]);
+        	printf("iPS = %x\r", iPS);
+
+            LPT_Init(iDel, para[2], iPS);
             break;
         case LPT_CFG_IE_CTL:
-            if (para0)
+        	printf("LPT_CFG_IE_CTL: 1-enable; 0-disable\r");
+        	para[0]  = UART_Receive();
+            if (para[0])
             {
                 PLIC_SetPriority(LPTIMER_IRQn, 1);
                 PLIC_EnableIRQ(LPTIMER_IRQn);
@@ -46,18 +89,29 @@ void TestModelLPT(u8 func, u8 item, u8 para0, u8 para1, u8 para2)
             break;
         }
         break;
-    case LPT_FUNC_CTL_DIS:
-        LPT_EnableControl(DISABLE);
-        break;
     case LPT_FUNC_CTL_EN:
         LPT_EnableControl(ENABLE);
         break;
+
+    case LPT_FUNC_CTL_DIS:
+        LPT_EnableControl(DISABLE);
+        break;
     case LPT_FUNC_GET_CNT:
-        printf("cnt:%d\n", LPTIM->CNT);
+        printf("cnt:%x\n", LPTIM->CNT);
         break;
     case LPT_FUNC_GET_STS:
-        printf("sts:%d\n", LPTIM->INTSTS);
+        printf("sts:%x\n", LPTIM->INTSTS);
         break;
+    case LPT_FUNC_PIT_CNT:
+    	LPT_DeInit();
+    	LPT_Init(10, LPT_PIT_CNT, 2);
+        PLIC_EnableIRQ(LPTIMER_IRQn);
+        PLIC_SetPriority(LPTIMER_IRQn, 1);
+        LPT_EnableIRQ();
+        LPT_EnableControl(ENABLE);
+        LPT_ClrIntFlag();
+        printf("LPTIM->CR %x\n", LPTIM->CR);
+    	break;
     default:
         break;
     }

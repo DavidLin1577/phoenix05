@@ -27,7 +27,15 @@ int test_entry(void)
 		 if(recv_header == 0xcc)
 		 {
 			 LED_OFF(LED_RED);
-			 printf("enter test mode: \r\n");
+			 printf("choose model: 1 - 10\r");
+			 printf("MODEL_CTL         (0)\r");
+			 printf("MODEL_IOM         (1)\r");
+			 printf("MODEL_WDT         (2)\r");
+			 printf("MODEL_LPTIMER     (3)\r");
+			 printf("MODEL_TIMER       (4)\r");
+			 printf("MODEL_UART        (5)\r");
+			 printf("MODEL_EFC         (6)\r");
+
 			 model = UART_Receive();
 
 			 switch(model)
@@ -102,13 +110,7 @@ int test_entry(void)
 				 break;
 			 case MODEL_EFC:
                  #if TEST_EFC_EN
-				 func     = UART_Receive();
-				 item     = UART_Receive();
-				 para[0]  = UART_Receive();
-				 para[1]  = UART_Receive();
-				 para[2]  = UART_Receive();
-				 para[3]  = UART_Receive();
-				 TestModelEFC(func, item, para[0], para[1], para[2], para[3]);
+				 TestModelEFC();
 			     #endif
 				 break;
 			 case MODEL_SYSC:

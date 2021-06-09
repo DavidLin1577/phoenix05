@@ -8,9 +8,9 @@
 #define TEST_IOM_EN      (0)
 #define TEST_WDT_EN      (0)
 #define TEST_LPT_EN      (0)
-#define TEST_TIM_EN      (1)
+#define TEST_TIM_EN      (0)
 #define TEST_UART_EN     (0)
-#define TEST_EFC_EN      (0)
+#define TEST_EFC_EN      (1)
 #define TEST_SYSC_EN     (0)
 #define TEST_PMU_EN      (0)
 
@@ -61,6 +61,8 @@ typedef enum iom_func
     IOM_FUNC_CTL_DEBOUNCE_DIS = 6,            //去抖动禁止
     IOM_FUNC_CTL_IN_LS_SYNC_EN = 7,           //输入同步使能同步到pclk域
     IOM_FUNC_CTL_IN_LS_SYNC_DIS = 8,          //输入同步禁止
+	IOM_FUNC_INT = 9,                         //外部中断
+	IOM_FUNC_TEST = 10,
 }iom_func_t;
 
 typedef enum iom_item
@@ -191,15 +193,24 @@ typedef enum efc_func
     EFC_FUNC_CFG = 1,                        //配置控制
     EFC_FUNC_CHP_ERS = 2,                    //芯片擦除
     EFC_FUNC_RD_STS = 3,                     //读状态
+	EFC_FUNC_INT = 4,                        //读状态
 }efc_func_t;
 
 typedef enum efc_item
 {
-    EFC_CFG_SIG_PRG = 0,                     //单地址编程 #u32<0x10100000-0x10107fff>:addr#u8<0-2>:type
-                                             // byte-hw-word#u32<0x00000000-0xffffffff>:data#
-    EFC_CFG_RD = 1,                          //读地址数据 #u32<0x10100000-0x10107fff>:addr#
-    EFC_CFG_PG_ERS = 2,                      //页擦除 #u32<0x10100000-0x10107fff>:addr#
-}efc_item_t;
+    EFC_CFG_SIG_PRG = 0,                    //单地址编程 #u32<0x2000-0x5fff>:addr#u8<0-2>:type
+                                            // byte-hw-word#u32<0x00000000-0xffffffff>:data#
+    EFC_CFG_RD = 1,                         //读地址数据 #u32<0x2000-0x5fff>:addr#
+    EFC_CFG_PG_ERS = 2,                     //页擦除 #u32<0x2000-0x5fff>:addr#
+    EFC_CFG_LVDWARNEN = 3,
+    EFC_CFG_ATDEINTEN = 4,
+    EFC_CFG_ATTEINTEN = 5,
+    EFC_CFG_FTTEINTEN = 6,
+    EFC_CFG_ADDREINTEN = 7,
+    EFC_CFG_FCINTEN = 8,
+    EFC_CFG_CDINTEN = 9,
+}
+efc_item_t;
 
 typedef enum sysc_func
 {

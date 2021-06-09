@@ -110,25 +110,25 @@ void TestModelTimer(void)
                 Dat = (u16)(para2 << 8 | para1);
                 gDel = Dat;
                 Timer_DeInit(TIMER1);
-                Timer_Timing_Init(TIMER1, Dat);
+                Timer_Timing_Init(TIMER1, Dat, 0);
                 break;
         	case 2:
                 Dat = (u16)(para2 << 8 | para1);
                 gDel = Dat;
                 Timer_DeInit(TIMER2);
-                Timer_Timing_Init(TIMER2, Dat);
+                Timer_Timing_Init(TIMER2, Dat, 0);
                 break;
         	case 3:
                 Dat = (u16)(para2 << 8 | para1);
                 gDel = Dat;
                 Timer_DeInit(TIMER3);
-                Timer_Timing_Init(TIMER3, Dat);
+                Timer_Timing_Init(TIMER3, Dat, 0);
                 break;
         	case 4:
                 Dat = (u16)(para2 << 8 | para1);
                 gDel = Dat;
                 Timer_DeInit(TIMER4);
-                Timer_Timing_Init(TIMER4, Dat);
+                Timer_Timing_Init(TIMER4, Dat, 0);
                 break;
         	default:
         		break;
@@ -143,25 +143,25 @@ void TestModelTimer(void)
                 Dat = (u16)(para2 << 8 | para1);
                 gDel = Dat;
                 Timer_DeInit(TIMER1);
-                Timer_Count_Init(TIMER1, Dat);
+                Timer_Count_Init(TIMER1, Dat, 0);
                 break;
         	case 2:
                 Dat = (u16)(para2 << 8 | para1);
                 gDel = Dat;
                 Timer_DeInit(TIMER2);
-                Timer_Count_Init(TIMER2, Dat);
+                Timer_Count_Init(TIMER2, Dat, 0);
                 break;
         	case 3:
                 Dat = (u16)(para2 << 8 | para1);
                 gDel = Dat;
                 Timer_DeInit(TIMER3);
-                Timer_Count_Init(TIMER3, Dat);
+                Timer_Count_Init(TIMER3, Dat, 0);
                 break;
         	case 4:
                 Dat = (u16)(para2 << 8 | para1);
                 gDel = Dat;
                 Timer_DeInit(TIMER4);
-                Timer_Count_Init(TIMER4, Dat);
+                Timer_Count_Init(TIMER4, Dat, 0);
                 break;
         	default:
         		break;

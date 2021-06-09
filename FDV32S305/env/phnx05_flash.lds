@@ -11,7 +11,7 @@ MEMORY
 
 SECTIONS
 {
-  __stack_size = DEFINED(__stack_size) ? __stack_size : 200;
+  __stack_size = DEFINED(__stack_size) ? __stack_size : 512;
 
   .init           :
   {

@@ -14,15 +14,15 @@
 #include "../include/phnx05.h"
 
 /* EFC definitions */
-#define EFC_CR_REG REG32                    (EFC_BASE + 0x00)
-#define EFC_TNVS_REG REG32                  (EFC_BASE + 0x04)
-#define EFC_TPROG_REG REG32                 (EFC_BASE + 0x08)
-#define EFC_TPGS_REG REG32                  (EFC_BASE + 0x0c)
-#define EFC_TRCV_REG REG32                  (EFC_BASE + 0x10)
-#define EFC_TERASE_REG REG32                (EFC_BASE + 0x14)
-#define EFC_WPT_REG REG32                   (EFC_BASE + 0x18)
-#define EFC_OPR_REG REG32                   (EFC_BASE + 0x1c)
-#define EFC_STS_REG REG32                   (EFC_BASE + 0x24)
+#define EFC_CR_REG                          REG32(EFC_BASE + 0x00)
+#define EFC_TNVS_REG                        REG32(EFC_BASE + 0x04)
+#define EFC_TPROG_REG                       REG32(EFC_BASE + 0x08)
+#define EFC_TPGS_REG                        REG32(EFC_BASE + 0x0c)
+#define EFC_TRCV_REG                        REG32(EFC_BASE + 0x10)
+#define EFC_TERASE_REG                      REG32(EFC_BASE + 0x14)
+#define EFC_WPT_REG                         REG32(EFC_BASE + 0x18)
+#define EFC_OPR_REG                         REG32(EFC_BASE + 0x1c)
+#define EFC_STS_REG                         REG32(EFC_BASE + 0x24)
 
 /*register bit definitions */
 // EFCCR
@@ -114,5 +114,7 @@ eReturnType EFC_ProgramVerify(u32 u32Addr);
 eReturnType EFC_FlashPageWrite(u32 u32Addr, u32 *pu32Dat, u32 u32Len,
                                u32 u32PrgType);
 BOOL EFC_EEPROMWrite(u32 addr, u32 data, int iPrgType);
+void EFC_EnableIRQ(void);
+void EFC_DisableIRQ(void);
 
 #endif /* __EFC_H__ */

@@ -114,8 +114,7 @@ eReturnType EFC_SingleProgram(u32 Addr, int iPrgType, u32 Data)
         PARAM_CHECK(Addr & 0x03);
         REG32(Addr) = Data;
     }
-    while (!EFC_STS_REG)
-        ;
+
     if (EFC_STS_REG != EFC_STS_CD)
     {
         return EFC_SING_PRG_FAIL;
@@ -204,4 +203,24 @@ BOOL EFC_EEPROMWrite(u32 addr, u32 data, int iPrgType)
     }
 
     return TRUE;
+}
+
+/**
+ * @brief EFC enable interrupt
+ *
+ */
+void EFC_EnableIRQ(void)
+{
+    EFC_WPT_UNLOCK();
+    EFC->CR |= EFC_CR_LVDWARNEN | EFC_CR_ATDEINTEN | EFC_CR_ATTEINTEN | EFC_CR_FTTEINTEN | EFC_CR_ADDREINTEN | EFC_CR_FCINTEN | EFC_CR_CDINTEN;
+}
+
+/**
+ * @brief EFC disable interrupt
+ *
+ */
+void EFC_DisableIRQ(void)
+{
+    EFC_WPT_UNLOCK();
+    EFC->CR &= ~(EFC_CR_LVDWARNEN | EFC_CR_ATDEINTEN | EFC_CR_ATTEINTEN | EFC_CR_FTTEINTEN | EFC_CR_ADDREINTEN | EFC_CR_FCINTEN | EFC_CR_CDINTEN);
 }

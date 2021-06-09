@@ -2,6 +2,8 @@
 #include "lib_include.h"
 #include "test_main.h"
 
+#if TEST_IOM_EN
+
 static void iom_irq_info(u8 pin)
 {
 	u8 i;
@@ -182,3 +184,5 @@ void TestModelIOM(u8 func, u8 item, u8 para0, u8 para1, u8 para2)
         break;
     }
 }
+
+#endif

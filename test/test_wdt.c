@@ -3,6 +3,8 @@
 #include "demo.h"
 #include "test_main.h"
 
+#if TEST_WDT_EN
+
 //wdt
 #define WDT_LOG_ADDR                (TEST_WDT_BASE)
 #define WDT_LOG_EQUALS_ADDR         (WDT_LOG_ADDR              + 0x00 )  //地址可以根据实际需要配置
@@ -154,5 +156,5 @@ void TestModelWDT(u8 func, u8 item, u8 para0, u8 para1, u8 para2)
     }
 }
 
-
+#endif
 

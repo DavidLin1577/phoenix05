@@ -1,130 +1,129 @@
 #include "test_efc.h"
-#include "test_lib.h"
 #include "lib_include.h"
 #include "test_main.h"
 
-static void efc_info(u8 value)
-{
-	u8 i;
-	u8 msg[20]  = {'e', 'f', 'c', ' ', 'i', 'n', 'f', 'o', ':'};
+#if TEST_EFC_EN
 
-    msg[10] = value + '0';
-    msg[11] = '\r';
-    for(i = 0; i < sizeof(msg);i++)
-    {
-        UART_Send(msg[i]);
-    }
+void EFC_IrqHandler(void)
+{
+ 
+	if(EFC->STS & EFC_STS_ATDE)
+	{
+		//printf("ATDE error\n");
+	}
+	if (EFC->STS & EFC_STS_ATTE)
+	{
+		//printf("ATTE error\n");
+	}
+	if (EFC->STS & EFC_STS_FTTE)
+	{
+		//printf("FTTE error\n");
+	}
+	if (EFC->STS & EFC_STS_ADDRE)
+	{
+		//printf("ADDRE error\n");
+	}
+	if (EFC->STS & EFC_STS_FCE)
+	{
+		//printf("FCE error\n");
+	}                    
+	if (EFC->STS & EFC_STS_CD)
+	{
+		//printf("CD error\n");
+		GPIO_SetPin(GPIO_PIN14);
+	}
 }
 
-static void test_fail(void)
+void TestModelEFC(void)
 {
-	u8 i;
-	u8 msg[10]  = {'e','f','c',' ',' ', 'f','a','i','l','\r'};
-    for(i = 0; i < sizeof(msg);i++)
-    {
-        UART_Send(msg[i]);
-    }
-}
+	u8 func;
+	u8 item;
+	u8 type;
+	u8 para[10] = {0};
 
-static void test_pass(void)
-{
-	u8 i;
-	u8 msg[10]  = {'t','e','s','t',' ', 'o','k','\r'};
-    for(i = 0; i < sizeof(msg);i++)
-    {
-        UART_Send(msg[i]);
-    }
-}
-
-void TestModelEFC(u8 func, u8 item, u8 para0, u8 para1, u8 para2, u8 para3)
-{
     u8 value;
     u8 i;
     u32 Addr;
-    u8 type;
-    u32 Dat;
-    u8 msg[20] = {0};
 
+    u32 Dat;
+
+	func     = UART_Receive();
     switch (func)
     {
     case EFC_FUNC_INIT:
-    	//cc 6 0 0 0 0 0 0
     	EFC_Init();
-    	test_pass();
-    	break;
+		printf("EFC_Init\n");
+		break;
     case EFC_FUNC_CFG:
+    	//printf("EFC_CFG_SIG_PRG  (0)\n");
+    	//printf("EFC_CFG_RD       (1)\n");
+    	//printf("EFC_CFG_PG_ERS   (2)\n");
+    	item     = UART_Receive();
         switch (item)
         {
         case EFC_CFG_SIG_PRG:
-        	//cc 6 1 0 48 0 0 0
         	//Flash地址起始地址是0x2000,因为存储有代码，所以测试地址注意避开已经使用的区间，比如测试0x2000偏移10K的地址,0x4800
-            Addr = ((u32)(para0 << 8) | para1);
-            type  = para2;
+        	//printf("choose type: byte(0), halfword(1), word(2)\n");
+        	type     = UART_Receive();
             switch(type)
             {
             case EFC_PRG_BYTE:
-            	//cc 6 1 0 48 0 0 0
-            	Dat = 0x55;
-            	itoaw(Dat,msg,16);
-            	for(i = 0; i < sizeof(msg);i++)
-            	{
-            	    UART_Send(msg[i]);
-            	}
+            	printf("byte: 0x00 - 0xff\r\n");
+            	para[0]  = UART_Receive();
+            	Dat = para[0];
+            	Addr = 0x2000+0x2800;
             	break;
             case EFC_PRG_HWORD:
-            	//cc 6 1 0 48 0 1 0
-            	Dat = 0x5a5a;
-            	itoaw(Dat,msg,16);
-            	for(i = 0; i < sizeof(msg);i++)
-            	{
-            	    UART_Send(msg[i]);
-            	}
+            	printf("half word: 0x0000 - 0xffff\n");
+            	printf("high byte: 0x00 - 0xff\n");
+            	para[0]  = UART_Receive();
+            	printf("%x\r\n", para[0]);
+            	printf("low  byte: 0x00 - 0xff\n");
+            	para[1]  = UART_Receive();
+            	printf("%x\r\n", para[1]);
+            	Dat = ((u16)(para[0] << 8) | para[1]);
+            	printf("Dat = %x\r\n", Dat);
+            	Addr = 0x2000+0x2800;
                 break;
             case EFC_PRG_WORD:
-            	//cc 6 1 0 48 0 2 0
             	Dat = 0xa5a5a5a5;
-            	//itoa(Dat, msg);
-            	itoaw(Dat,msg,16);
-            	for(i = 0; i < sizeof(msg);i++)
-            	{
-            	    UART_Send(msg[i]);
-            	}
+            	Addr = 0x2000+0x2800;
             	break;
             default:
-            	//cc 6 1 0 48 0 x 0
             	Dat = 0x00000000;
+            	Addr = 0x2000+0x2800;
             	break;
             }
+
             if( EFC_SingleProgram(Addr, type, Dat) != EFC_SUCCESS)
             {
-            	test_fail();
+            	printf("write flash error\n");
             }
             else
             {
-            	test_pass();
+            	printf("REG32(%x) %x\n", Addr, REG32(Addr));
             }
+
             break;
         case EFC_CFG_RD:
-        	//cc 6 1 1 48 0 0 0
-        	Addr = ((u32)(para0 << 8) | para1);
-        	itoaw(REG32(Addr),msg,16);
-        	for(i = 0; i < sizeof(msg);i++)
-        	{
-        		UART_Send(msg[i]);
-        	}
-        	test_pass();
-            //printf("%x", REG32(Addr));
-        	//通过putty查看Address对应值
+        	printf("address: 0x2000 - 0x5fff\n");
+        	printf("high addr: 0x00 - 0xff\n");
+        	para[0]  = UART_Receive();
+        	printf("low  addr: 0x00 - 0xff\n");
+        	para[1]  = UART_Receive();
+        	Addr = ((u16)(para[0] << 8) | para[1]);
+            printf("%x", REG32(Addr));
             break;
         case EFC_CFG_PG_ERS:
-        	Addr = ((u32)(para0 << 8) | para1);
+        	printf("address: 0x2000 - 0x5fff\n");
+        	printf("high addr: 0x00 - 0xff\n");
+        	para[0]  = UART_Receive();
+        	printf("low  addr: 0x00 - 0xff\n");
+        	para[1]  = UART_Receive();
+        	Addr = ((u16)(para[0] << 8) | para[1]);
             if (EFC_PageErase(Addr) != EFC_SUCCESS)
             {
-            	test_fail();
-            }
-            else
-            {
-            	test_pass();
+            	printf("erase flash error\n");
             }
             break;
 
@@ -135,13 +134,55 @@ void TestModelEFC(u8 func, u8 item, u8 para0, u8 para1, u8 para2, u8 para3)
     case EFC_FUNC_CHP_ERS:
         if( EFC_ChipErase(0x00002000) != EFC_SUCCESS)
         {
-        	test_fail();
+        	printf("erase chip error\n");
         }
         break;
     case EFC_FUNC_RD_STS:
-    	efc_info(EFC->STS);
+    	printf("EFC->STS %x\n", EFC->STS);
         break;
-    default:
+	case EFC_FUNC_INT:
+		PLIC_EnableIRQ(EFC_IRQn);
+		PLIC_SetPriority(EFC_IRQn, 1);
+	    EFC_EnableIRQ();
+		printf("EFC_CFG_LVDWARNEN   (3)\n");
+		printf("EFC_CFG_ATDEINTEN   (4)\n");
+		printf("EFC_CFG_ATTEINTEN   (5)\n");
+		printf("EFC_CFG_FTTEINTEN   (6)\n");
+		printf("EFC_CFG_ADDREINTEN  (7)\n");
+		//printf("EFC_CFG_FCINTEN     (8)\n");
+		//printf("EFC_CFG_CDINTEN     (9)\n");
+		item = UART_Receive();
+		switch (item)
+		{
+		case EFC_CFG_LVDWARNEN:
+			break;
+		case EFC_CFG_ATDEINTEN:
+			break;
+		case EFC_CFG_ATTEINTEN:
+			break;
+		case EFC_CFG_FTTEINTEN:
+			break;
+		case EFC_CFG_ADDREINTEN:
+			if (EFC_SingleProgram(0xAFFF, EFC_PRG_WORD, 0x5a5aa5a5) != EFC_SUCCESS)
+		    {
+				printf("write flash error\n");
+			}
+			break;
+		case EFC_CFG_FCINTEN:
+			break;
+		case EFC_CFG_CDINTEN:
+			if (EFC_SingleProgram(0x4800, EFC_PRG_WORD, 0x5a5aa5a5) != EFC_SUCCESS)
+			{
+				printf("write flash error\n");
+			}
+			break;
+		default:
+			break;
+		}
+		break;
+	default:
         break;
     }
 }
+
+#endif
