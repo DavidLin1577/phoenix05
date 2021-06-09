@@ -8,8 +8,8 @@
  * @copyright Fanhai Data Tech. (c) 2021
  *
  */
-#ifndef __LPTIM_H__
-#define __LPTIM_H__
+#ifndef __LPTIMER_H__
+#define __LPTIMER_H__
 #include "../include/phnx05.h"
 
 // register  defines
@@ -38,15 +38,15 @@ typedef enum _CNT_MODE
     LPT_PIT_CNT,
 } eCntModeType;
 
-#define LPT_GetIntFlag() (LPTIM_INTSTS_REG & LPTIM_STS)
+#define LPT_GetIntFlag() ( LPTIM_INTSTS_REG & LPTIM_STS)
 #define LPT_ClrIntFlag() { LPTIM_INTSTS_REG = LPTIM_STS; }
 
 // lptimer function
-void LPT_Init(int iDel, int iMode);
+void LPT_Init(u16 iDel, u16 iMode, u16 iPS);
 void LPT_DeInit(void);
 void LPT_EnableControl(int iCtrl);
 void LPT_EnableIRQ(void);
 void LPT_DisableIRQ(void);
 u16  LPT_GetCount(void);
 
-#endif /*__LPTIM_H__*/
+#endif /*__LPTIMER_H__*/

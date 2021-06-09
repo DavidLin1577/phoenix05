@@ -16,7 +16,7 @@ static void timer_timing_demo(void)
 	case TIMER0:
 		break;
 	case TIMER1:
-		Timer_Timing_Init(TIMER1, 400);
+		Timer_Timing_Init(TIMER1, 10000,0);
         PLIC_EnableIRQ(TIMER1_IRQn);
         PLIC_SetPriority(TIMER1_IRQn, 1);
         Timer_EnableIRQ(TIMER1);
@@ -24,7 +24,7 @@ static void timer_timing_demo(void)
         Timer_ClrIntFlag(TIMER1);
         break;
 	case TIMER2:
-		Timer_Timing_Init(TIMER2, 200);
+		Timer_Timing_Init(TIMER2, 200,0);
         PLIC_EnableIRQ(TIMER2_IRQn);
         PLIC_SetPriority(TIMER2_IRQn, 1);
         Timer_EnableIRQ(TIMER2);
@@ -32,7 +32,7 @@ static void timer_timing_demo(void)
         Timer_ClrIntFlag(TIMER2);
 		break;
 	case TIMER3:
-		Timer_Timing_Init(TIMER3, 300);
+		Timer_Timing_Init(TIMER3, 300,0);
         PLIC_EnableIRQ(TIMER3_IRQn);
         PLIC_SetPriority(TIMER3_IRQn, 1);
         Timer_EnableIRQ(TIMER3);
@@ -40,7 +40,7 @@ static void timer_timing_demo(void)
         Timer_ClrIntFlag(TIMER3);
 		break;
 	case TIMER4:
-		Timer_Timing_Init(TIMER4, 400);
+		Timer_Timing_Init(TIMER4, 400,0);
         PLIC_EnableIRQ(TIMER4_IRQn);
         PLIC_SetPriority(TIMER4_IRQn, 1);
         Timer_EnableIRQ(TIMER4);
@@ -54,7 +54,8 @@ static void timer_timing_demo(void)
 
 static void timer_count_demo(void)
 {
-	int timer = TIMER1;
+
+	int timer = TIMER4;
 
 	switch(timer)
 	{
@@ -182,13 +183,11 @@ void TIMER1_IrqHandler(void)
     {
         tog = 0;
         LED_OFF(LED_RED);
-        printf("led off\r\n");
     }
     else
     {
         tog = 1;
         LED_ON(LED_RED);
-        printf("led on\r\n");
     }
 
     Timer_ClrIntFlag(TIMER1);

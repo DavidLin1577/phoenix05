@@ -39,22 +39,15 @@
 void WDT_Init(int ps, int iDel, eOVModeType iOVMode)
 {
     int iTmp = 1;
-
+    int temp = 0;
     PARAM_CHECK((iOVMode != WDT_OV_INT) && (iOVMode != WDT_OV_RST));
 
     SYSC->CLKENCFG |= SYSC_CLKENCFG_LPWDT_PCKEN;
 
     //setting ps
-    WDT_CR_REG |= (ps << 8) & 0xF00;
-
-    iDel = iDel >> 2;
-
-    while (iDel > 2) {
-        ++iTmp;
-        iDel >>= 1;
-    }
-    PARAM_CHECK((iTmp > 16) || (iTmp == 0));
-    WDT_CR_REG = iTmp - 1;
+    temp |= (ps << 8); //ps
+    temp |= iDel;      //wov
+    WDT_CR_REG = temp;
 
     if (iOVMode == WDT_OV_INT) {
         WDT_CR_REG |= WDT_CR_WINTEN;

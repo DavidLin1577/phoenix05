@@ -18,17 +18,14 @@
  * @param iMode :LPT_SIG_TIME_CNT , LPT_PIT_CNT
  * note:clk source = lrc  at least 4ms err,
  */
-void LPT_Init(int iDel, int iMode)
+void LPT_Init(u16 iDel, u16 iMode, u16 iPS)
 {
     int iTmp = 1;
-    PARAM_CHECK((iMode != LPT_SIG_TIME_CNT) && (iMode != LPT_PIT_CNT));
-    SYSC->CLKENCFG |= SYSC_CLKENCFG_LPTIM_CKEN;
+    SYSC->CLKENCFG |= SYSC_CLKENCFG_LPTIM_CKEN | SYSC_CLKENCFG_LPTIM_PCKEN;
 
-    iTmp = iDel>>2;
+    LPTIM->CR  |= iPS << 4;
+    LPTIM->CFG = iDel;
 
-    PARAM_CHECK((iTmp > 0xffff) || (iTmp < 1));
-    LPTIM->CR  |= 1 << 4;
-    LPTIM->CFG = iTmp - 1;
     if (iMode == LPT_SIG_TIME_CNT)
     {
         LPTIM_CR_REG &= ~LPTIM_CR_PITE;
@@ -37,8 +34,6 @@ void LPT_Init(int iDel, int iMode)
     {
         LPTIM_CR_REG |= LPTIM_CR_PITE;
     }
-
-    LPTIM->CR |= LPTIM_CR_EN;
 }
 
 /**
@@ -49,9 +44,13 @@ void LPT_Init(int iDel, int iMode)
 void LPT_EnableControl(int iCtrl)
 {
     if (iCtrl == ENABLE)
+    {
         LPTIM->CR |= LPTIM_CR_EN;
+    }
     else
+    {
         LPTIM->CR &= ~LPTIM_CR_EN;
+    }
 }
 /**
  * @brief Lptime deinit
@@ -66,12 +65,19 @@ void LPT_DeInit(void)
  * @brief enable interrupt
  *
  */
-void LPT_EnableIRQ(void) { LPTIM_CR_REG |= LPTIM_CR_IE; }
+void LPT_EnableIRQ(void)
+{
+	LPTIM_CR_REG |= LPTIM_CR_IE;
+}
+
 /**
  * @brief disable interrupt
  *
  */
-void LPT_DisableIRQ(void) { LPTIM_CR_REG &= ~LPTIM_CR_IE; }
+void LPT_DisableIRQ(void)
+{
+    LPTIM_CR_REG &= ~LPTIM_CR_IE;
+}
 
 /**
  * @brief get current count value

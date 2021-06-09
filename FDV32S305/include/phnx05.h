@@ -196,7 +196,7 @@ typedef struct {
 typedef struct {
     __IO unsigned int CR;
     __IO unsigned int CFG;
-    __IO unsigned int CNT;
+    __I  unsigned int CNT;
     __IO unsigned int INTSTS;
 
 } LPTIM_Type;

@@ -10,30 +10,26 @@ u16 gDel;
 void TIMER1_IrqHandler(void)
 {
     static int tog;
-    Timer_ClrIntFlag(TIMER1);
-    Timer_DeInit(TIMER1);
-    Timer_Timing_Init(TIMER1, gDel);
-    Timer_EnableControl(TIMER1, ENABLE);
+
     if (tog)
     {
         //GPIO_ClrPin(GPIO_PIN14);
-    	//printf("tog = 1\r\n");
+    	printf("tog = 1\r\n");
     }
     else
     {
         //GPIO_SetPin(GPIO_PIN14);
-    	//printf("tog = 0\r\n");
+    	printf("tog = 0\r\n");
     }
     tog = !tog;
+
+    Timer_ClrIntFlag(TIMER1);
 }
 
 void TIMER2_IrqHandler(void)
 {
     static int tog;
-    Timer_ClrIntFlag(TIMER2);
-    Timer_DeInit(TIMER2);
-    Timer_Timing_Init(TIMER2, gDel);
-    Timer_EnableControl(TIMER2, ENABLE);
+
     if (tog)
     {
         GPIO_ClrPin(GPIO_PIN14);
@@ -43,15 +39,14 @@ void TIMER2_IrqHandler(void)
         GPIO_SetPin(GPIO_PIN14);
     }
     tog = !tog;
+
+    Timer_ClrIntFlag(TIMER2);
 }
 
 void TIMER3_IrqHandler(void)
 {
     static int tog;
-    Timer_ClrIntFlag(TIMER3);
-    Timer_DeInit(TIMER3);
-    Timer_Timing_Init(TIMER3, gDel);
-    Timer_EnableControl(TIMER3, ENABLE);
+
     if (tog)
     {
         GPIO_ClrPin(GPIO_PIN14);
@@ -61,15 +56,14 @@ void TIMER3_IrqHandler(void)
         GPIO_SetPin(GPIO_PIN14);
     }
     tog = !tog;
+
+    Timer_ClrIntFlag(TIMER3);
 }
 
 void TIMER4_IrqHandler(void)
 {
     static int tog;
-    Timer_ClrIntFlag(TIMER4);
-    Timer_DeInit(TIMER4);
-    Timer_Timing_Init(TIMER4, gDel);
-    Timer_EnableControl(TIMER4, ENABLE);
+
     if (tog)
     {
         GPIO_ClrPin(GPIO_PIN14);
@@ -79,6 +73,9 @@ void TIMER4_IrqHandler(void)
         GPIO_SetPin(GPIO_PIN14);
     }
     tog = !tog;
+
+    Timer_ClrIntFlag(TIMER4);
+
 }
 
 void TestModelTimer(void)
@@ -369,6 +366,7 @@ void TestModelTimer(void)
         {
         case TIMER1:
             GPIO_PinSelect(GPIO_PIN14, PIN_FUNC_3);
+            GPIO_PinConfigure(GPIO_PIN14, ENABLE, ENABLE, ENABLE, DISABLE,ENABLE);
             for (i = 0; i < 0xFFFF; i++)
             {
                 Timer_PWMInit(TIMER1, 400, i);

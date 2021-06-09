@@ -19,7 +19,7 @@
  * @param timer :timer 0-4
  * @param delay :us
  */
-void Timer_Timing_Init(Timer_t timer,u16 delay)
+void Timer_Timing_Init(Timer_t timer,u16 delay,u8 tcks)
 {
     SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER_PCKEN;
 
@@ -40,8 +40,7 @@ void Timer_Timing_Init(Timer_t timer,u16 delay)
     	TIM1->TCR &= ~TIMER_TCR_PWMON;
     	TIM1->TCR &= ~TIMER_TCR_TGC;
     	TIM1->TCR &= ~TIMER_TCR_TCS;
-    	TIM1->TCR |= 0x01 << 2;
-    	TIM1->TCR |= TIMER_TCR_TON;
+    	TIM1->TCR |= tcks << 2;
     	TIM1->TN   = delay;
     	TIMERS->TIE |= TIMER1_TIE;
     	TIMERS->TIF |= TIMER1_TIF;
@@ -51,8 +50,7 @@ void Timer_Timing_Init(Timer_t timer,u16 delay)
     	TIM2->TCR &= ~TIMER_TCR_PWMON;
     	TIM2->TCR &= ~TIMER_TCR_TGC;
     	TIM2->TCR &= ~TIMER_TCR_TCS;
-    	TIM2->TCR |= 0x01 << 2;
-    	TIM2->TCR |= TIMER_TCR_TON;
+    	TIM2->TCR |= tcks << 2;
     	TIM2->TN   = delay;
     	TIMERS->TIE |= TIMER2_TIE;
     	TIMERS->TIF |= TIMER2_TIF;
@@ -62,8 +60,7 @@ void Timer_Timing_Init(Timer_t timer,u16 delay)
     	TIM3->TCR &= ~TIMER_TCR_PWMON;
     	TIM3->TCR &= ~TIMER_TCR_TGC;
     	TIM3->TCR &= ~TIMER_TCR_TCS;
-    	TIM3->TCR |= 0x01 << 2;
-    	TIM3->TCR |= TIMER_TCR_TON;
+    	TIM3->TCR |= tcks << 2;
     	TIM3->TN   = delay;
     	TIMERS->TIE |= TIMER3_TIE;
     	TIMERS->TIF |= TIMER3_TIF;
@@ -73,8 +70,7 @@ void Timer_Timing_Init(Timer_t timer,u16 delay)
     	TIM4->TCR &= ~TIMER_TCR_PWMON;
     	TIM4->TCR &= ~TIMER_TCR_TGC;
     	TIM4->TCR &= ~TIMER_TCR_TCS;
-    	TIM4->TCR |= 0x11 << 2;
-    	TIM4->TCR |= TIMER_TCR_TON;
+    	TIM4->TCR |= tcks << 2;
     	TIM4->TN   = delay;
     	TIMERS->TIE |= TIMER4_TIE;
     	TIMERS->TIF |= TIMER4_TIF;
@@ -90,7 +86,7 @@ void Timer_Timing_Init(Timer_t timer,u16 delay)
  * @param timer :timer 0-4
  * @param count :count
  */
-void Timer_Count_Init(Timer_t timer,u16 count)
+void Timer_Count_Init(Timer_t timer,u16 count, u16 tcks)
 {
     SYSC->CLKENCFG |= SYSC_CLKENCFG_TIMER_PCKEN;
 
@@ -110,7 +106,7 @@ void Timer_Count_Init(Timer_t timer,u16 count)
     	TIM1->TCR &= ~TIMER_TCR_PWMON;
     	TIM1->TCR &= ~TIMER_TCR_TGC;
     	TIM1->TCR |= TIMER_TCR_TCS;
-    	TIM1->TCR |= 0x01 << 2;
+    	TIM1->TCR |= tcks << 2;
     	TIM1->TN   = count;
     	TIMERS->TIE |= TIMER1_TIE;
     	TIMERS->TIF |= TIMER1_TIF;
@@ -120,7 +116,7 @@ void Timer_Count_Init(Timer_t timer,u16 count)
     	TIM2->TCR &= ~TIMER_TCR_PWMON;
     	TIM2->TCR &= ~TIMER_TCR_TGC;
     	TIM2->TCR |= TIMER_TCR_TCS;
-    	TIM2->TCR |= 0x01 << 2;
+    	TIM2->TCR |= tcks << 2;
     	TIM2->TN   = count;
     	TIMERS->TIE |= TIMER2_TIE;
     	TIMERS->TIF |= TIMER2_TIF;
@@ -130,7 +126,7 @@ void Timer_Count_Init(Timer_t timer,u16 count)
     	TIM3->TCR &= ~TIMER_TCR_PWMON;
     	TIM3->TCR &= ~TIMER_TCR_TGC;
     	TIM3->TCR |= TIMER_TCR_TCS;
-    	TIM3->TCR |= 0x01 << 2;
+    	TIM3->TCR |= tcks << 2;
     	TIM3->TN   = count;
     	TIMERS->TIE |= TIMER3_TIE;
     	TIMERS->TIF |= TIMER3_TIF;
@@ -140,7 +136,7 @@ void Timer_Count_Init(Timer_t timer,u16 count)
     	TIM4->TCR &= ~TIMER_TCR_PWMON;
     	TIM4->TCR &= ~TIMER_TCR_TGC;
     	TIM4->TCR |= TIMER_TCR_TCS;
-    	TIM4->TCR |= 0x01 << 2;
+    	TIM4->TCR |= tcks << 2;
     	TIM4->TN   = count;
     	TIMERS->TIE |= TIMER4_TIE;
     	TIMERS->TIF |= TIMER4_TIF;
@@ -168,7 +164,7 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	TIM1->TCR   |= TIMER_TCR_PWMON;
     	TIM1->TCR   &= ~TIMER_TCR_TGC;
     	TIM1->TCR   &= ~TIMER_TCR_TCS;
-    	TIM1->TCR   |= 0x01 << 2;
+    	TIM1->TCR   |= 0x00 << 2;
     	TIM1->PWMPD  = freq;
     	TIM1->PWMDC  = duty;
     	TIMERS->TIE |= TIMER1_TIE;
@@ -179,7 +175,7 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	TIM2->TCR   |= TIMER_TCR_PWMON;
     	TIM2->TCR   &= ~TIMER_TCR_TGC;
     	TIM2->TCR   &= ~TIMER_TCR_TCS;
-    	TIM2->TCR   |= 0x01 << 2;
+    	TIM2->TCR   |= 0x00 << 2;
     	TIM2->PWMPD  = freq;
     	TIM2->PWMDC  = duty;
     	TIMERS->TIE |= TIMER2_TIE;
@@ -190,7 +186,7 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	TIM3->TCR  |= TIMER_TCR_PWMON;
     	TIM3->TCR  &= ~TIMER_TCR_TGC;
     	TIM3->TCR  &= ~TIMER_TCR_TCS;
-    	TIM3->TCR  |= 0x01 << 2;
+    	TIM3->TCR  |= 0x00 << 2;
     	TIM3->PWMPD = freq;
     	TIM3->PWMDC = duty;
     	TIMERS->TIE |= TIMER3_TIE;
@@ -201,7 +197,7 @@ void Timer_PWMInit(Timer_t timer, u16 freq, u16 duty)
     	TIM4->TCR   |= TIMER_TCR_PWMON;
     	TIM4->TCR   &= ~TIMER_TCR_TGC;
     	TIM4->TCR   &= ~TIMER_TCR_TCS;
-    	TIM4->TCR   |= 0x01 << 2;
+    	TIM4->TCR   |= 0x00 << 2;
     	TIM4->PWMPD  = freq;
     	TIM4->PWMDC  = duty;
     	TIMERS->TIE |= TIMER4_TIE;
