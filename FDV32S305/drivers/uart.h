@@ -31,10 +31,10 @@
 #define UART_SCON_REN                  BIT(6)
 #define UART_SCON_RB8                  BIT(5)
 #define UART_SCON_TB8                  BIT(4)
-#define UART_SCON_RXSIEN               BIT(3)
-#define UART_SCON_RIEN                 BIT(2)
-#define UART_SCON_TIEN                 BIT(1)
-#define UART_SCON_SFDEN                BIT(0) // start bit detect enable
+#define UART_SCON_SFDEN                BIT(3)  // start bit detect enable
+#define UART_SCON_RXSIEN               BIT(2)
+#define UART_SCON_RIEN                 BIT(1)
+#define UART_SCON_TIEN                 BIT(0)
 
 #define UART_SCON_SM01_pos             (8)
 
@@ -48,9 +48,10 @@
 #define UART_SADEN_pos                 (0) // 0-0xff
 
 // UART_ISR
-#define UART_ISR_RXSF                  BIT(4)
-#define UART_ISR_PE                    BIT(3)
-#define UART_ISR_FE                    BIT(2)
+#define UART_ISR_TE                    BIT(6)
+#define UART_ISR_PE                    BIT(4)
+#define UART_ISR_FE                    BIT(3)
+#define UART_ISR_RXSF                  BIT(2)
 #define UART_ISR_RI                    BIT(1)
 #define UART_ISR_TI                    BIT(0)
 
