@@ -114,7 +114,8 @@ eReturnType EFC_SingleProgram(u32 Addr, int iPrgType, u32 Data)
         PARAM_CHECK(Addr & 0x03);
         REG32(Addr) = Data;
     }
-
+    while (!EFC_STS_REG)
+        ;
     if (EFC_STS_REG != EFC_STS_CD)
     {
         return EFC_SING_PRG_FAIL;
@@ -177,7 +178,7 @@ eReturnType EFC_ChipErase(u32 u32Addr)
  * @param iPrgType :EFC_PRG_BYTE , EFC_PRG_HWORD , EFC_PRG_WORD
  * @return BOOL:TRUE , FALSE
  */
-BOOL EFC_EEPROMWrite(u32 addr, u32 data, int iPrgType)
+BOOL EFC_EEPROMWrite(u32 addr, u32 iPrgType, u32 data)
 {
     if (EFC_PageErase(addr) != EFC_SUCCESS)
     {

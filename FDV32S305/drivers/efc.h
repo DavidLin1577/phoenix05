@@ -113,7 +113,7 @@ eReturnType EFC_PageEraseVerify(u32 u32Addr);
 eReturnType EFC_ProgramVerify(u32 u32Addr);
 eReturnType EFC_FlashPageWrite(u32 u32Addr, u32 *pu32Dat, u32 u32Len,
                                u32 u32PrgType);
-BOOL EFC_EEPROMWrite(u32 addr, u32 data, int iPrgType);
+BOOL EFC_EEPROMWrite(u32 addr, u32 iPrgType, u32 data);
 void EFC_EnableIRQ(void);
 void EFC_DisableIRQ(void);
 
