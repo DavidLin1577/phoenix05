@@ -54,16 +54,17 @@ typedef enum IRQn
  * @brief Embeded Flash Control (EFC)
  */
 
-typedef struct {              /*!< EFC Structure          */
+typedef struct {              /*!< EFC Structure */
     __IO unsigned int CR;     /*!< Control Register */
     __IO unsigned int TNVS;   /*!< ROG/ERASE/CEb/NVR/ADDRESS to Web Setup time */
-    __IO unsigned int TPROG;  /*!< PROG/ERASE/CEb/NVR/ADDRESS to Web Setup time          */
+    __IO unsigned int TPROG;  /*!< PROG/ERASE/CEb/NVR/ADDRESS to Web Setup time */
     __IO unsigned int TPGS;   /*!< WEb low to PROG2 high Setup time */
     __IO unsigned int TRCV;   /*!< Program Recovery Time */
     __IO unsigned int TERS;   /*!< Erase time */
-    __O  unsigned int WPT;    /*!< Write Protect Register     */
-    __IO unsigned int OPR;    /*!< OPR Flow Register    */
-    __IO unsigned int STS;    /*!< Verify Register    */
+    __O  unsigned int WPT;    /*!< Write Protect Register */
+    __IO unsigned int OPR;    /*!< OPR Flow Register */
+    __IO unsigned int REV;    /*!< REV Register */
+    __IO unsigned int STS;    /*!< Verify Register */
 } EFC_Type;
 
 
