@@ -6,30 +6,17 @@
 
 void EFC_IrqHandler(void)
 {
- 
-	if(EFC->STS & EFC_STS_ATDE)
-	{
-		//printf("ATDE error\n");
-	}
-	if (EFC->STS & EFC_STS_ATTE)
-	{
-		//printf("ATTE error\n");
-	}
-	if (EFC->STS & EFC_STS_FTTE)
-	{
-		//printf("FTTE error\n");
-	}
 	if (EFC->STS & EFC_STS_ADDRE)
 	{
-		//printf("ADDRE error\n");
+		GPIO_SetPin(GPIO_PIN14);
+		EFC->STS &= ~0x04;
 	}
 	if (EFC->STS & EFC_STS_FCE)
 	{
-		//printf("FCE error\n");
+		GPIO_SetPin(GPIO_PIN14);
 	}                    
 	if (EFC->STS & EFC_STS_CD)
 	{
-		//printf("CD error\n");
 		GPIO_SetPin(GPIO_PIN14);
 	}
 }
@@ -144,33 +131,14 @@ void TestModelEFC(void)
 		PLIC_EnableIRQ(EFC_IRQn);
 		PLIC_SetPriority(EFC_IRQn, 1);
 	    EFC_EnableIRQ();
-		printf("EFC_CFG_LVDWARNEN   (3)\n");
-		printf("EFC_CFG_ATDEINTEN   (4)\n");
-		printf("EFC_CFG_ATTEINTEN   (5)\n");
-		printf("EFC_CFG_FTTEINTEN   (6)\n");
-		printf("EFC_CFG_ADDREINTEN  (7)\n");
-		//printf("EFC_CFG_FCINTEN     (8)\n");
-		//printf("EFC_CFG_CDINTEN     (9)\n");
 		item = UART_Receive();
+		printf("item   %x\n", item);
 		switch (item)
 		{
-		case EFC_CFG_LVDWARNEN:
-			break;
-		case EFC_CFG_ATDEINTEN:
-			break;
-		case EFC_CFG_ATTEINTEN:
-			break;
-		case EFC_CFG_FTTEINTEN:
-			break;
 		case EFC_CFG_ADDREINTEN:
-			if (EFC_SingleProgram(0xAFFF, EFC_PRG_WORD, 0x5a5aa5a5) != EFC_SUCCESS)
-		    {
-				printf("write flash error\n");
-			}
+			EFC_SingleProgram(0xAFFF, EFC_PRG_WORD, 0x5a5aa5a5);
 			break;
 		case EFC_CFG_FCINTEN:
-			break;
-		case EFC_CFG_CDINTEN:
 			if (EFC_SingleProgram(0x4800, EFC_PRG_WORD, 0x5a5aa5a5) != EFC_SUCCESS)
 			{
 				printf("write flash error\n");
